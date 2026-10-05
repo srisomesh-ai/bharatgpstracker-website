@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BharatGPS — GPS Vehicle Tracking for Cars, Bikes & Fleets</title>
+<meta name="description" content="BharatGPS by Sribharat GPS Tracker Pvt Ltd. Live GPS tracking, remote engine cut-off, fleet reports and school bus tracking across Andhra Pradesh & Telangana. Buy online with doorstep installation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff; --soft:#f5f7fb; --line:#e4e8f0; --text:#0f1b2d; --muted:#5b6b82;
+  --navy:#0b2447; --primary:#1554d1; --primary-d:#0f43ab; --accent:#f26a1b; --green:#10a36b;
+  --shadow:0 1px 2px rgba(15,27,45,.04),0 8px 24px -8px rgba(15,27,45,.10);
+  --shadow-lg:0 2px 4px rgba(15,27,45,.04),0 30px 60px -20px rgba(15,27,45,.22);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,h4,.brand{font-family:"Plus Jakarta Sans",sans-serif;letter-spacing:-.02em;line-height:1.15;color:var(--navy)}
+a{color:inherit;text-decoration:none}
+svg.i{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 24px;border-radius:10px;font-weight:600;font-size:15px;transition:.2s;cursor:pointer;border:1px solid transparent}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-d)}
+.btn-outline{border-color:var(--line);color:var(--navy);background:#fff}
+.btn-outline:hover{border-color:var(--primary);color:var(--primary)}
+.eyebrow{display:inline-block;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin-bottom:12px}
+section{padding:96px 0}
+.sec-head{max-width:680px;margin:0 auto 56px;text-align:center}
+.sec-head h2{font-size:clamp(28px,4vw,40px);margin-bottom:14px}
+.sec-head p{color:var(--muted);font-size:17px}
+
+/* TOP BAR + NAV */
+.topbar{background:var(--navy);color:#c9d4e8;font-size:13px}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:38px;gap:16px}
+.topbar span{display:inline-flex;align-items:center;gap:6px}
+.topbar svg.i{width:15px;height:15px}
+nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:72px}
+.brand{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:800}
+.brand-mark{width:36px;height:36px;border-radius:9px;background:var(--primary);display:grid;place-items:center;color:#fff}
+.brand b{color:var(--accent)}
+.nav-links{display:flex;gap:32px;font-size:15px;font-weight:500;color:var(--muted)}
+.nav-links a:hover{color:var(--primary)}
+.nav-cta{display:flex;gap:10px}
+.nav-cta .btn{padding:10px 18px;font-size:14px}
+.burger{display:none;background:none;border:0;color:var(--navy)}
+
+/* HERO */
+.hero{padding:72px 0 88px;background:linear-gradient(180deg,#f3f6fc 0%,#fff 100%);position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:56px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13.5px;color:var(--muted);box-shadow:var(--shadow)}
+.pill em{font-style:normal;background:#e8f7f0;color:var(--green);font-weight:600;padding:2px 8px;border-radius:999px;font-size:12px}
+.hero h1{font-size:clamp(36px,5.2vw,58px);margin:22px 0 18px}
+.hero h1 span{color:var(--primary)}
+.hero .lead{font-size:18px;color:var(--muted);max-width:520px}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin:30px 0 34px}
+.checks{display:flex;gap:22px;flex-wrap:wrap;font-size:14.5px;color:var(--muted)}
+.checks span{display:inline-flex;align-items:center;gap:7px}
+.checks svg{color:var(--green);width:18px;height:18px}
+
+/* DASHBOARD MOCK */
+.dash{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-lg);overflow:hidden}
+.dash-top{display:flex;align-items:center;gap:6px;padding:12px 16px;border-bottom:1px solid var(--line);background:#fafbfd}
+.dash-top i{width:10px;height:10px;border-radius:50%;background:#e1e5ec}
+.dash-top small{margin-left:10px;color:var(--muted);font-size:12px}
+.dash-body{display:grid;grid-template-columns:190px 1fr;height:380px}
+.side{border-right:1px solid var(--line);padding:12px;display:flex;flex-direction:column;gap:8px;font-size:12.5px}
+.side h5{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:2px 4px 4px;font-family:Inter}
+.veh{padding:9px 10px;border-radius:8px;border:1px solid var(--line)}
+.veh.on{border-color:var(--primary);background:#f0f5ff}
+.veh b{display:block;color:var(--navy);font-size:12.5px}
+.st{display:inline-flex;align-items:center;gap:5px;font-size:11.5px}
+.st::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.st.mv{color:var(--green)}.st.id{color:#d99a00}.st.off{color:#97a3b6}
+.mapv{position:relative;background:#eef2f7}
+.mapv svg{position:absolute;inset:0;width:100%;height:100%}
+.card-f{position:absolute;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:12px;box-shadow:var(--shadow)}
+.card-f b{color:var(--navy);font-size:13px}
+.cf1{left:14px;bottom:14px;right:14px;display:flex;justify-content:space-between;gap:10px}
+.cf1 div span{display:block;color:var(--muted);font-size:11px}
+.cf2{top:14px;right:14px;display:flex;align-items:center;gap:8px;color:var(--accent);font-weight:600}
+.cf2 svg{width:16px;height:16px}
+
+/* STATS */
+.stats{border-block:1px solid var(--line);background:#fff}
+.stats .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
+.stat{padding:32px 20px;text-align:center;border-right:1px solid var(--line)}
+.stat:last-child{border-right:0}
+.stat b{display:block;font-family:"Plus Jakarta Sans";font-size:32px;color:var(--navy);font-weight:800}
+.stat span{color:var(--muted);font-size:14px}
+
+/* FEATURES */
+.feat{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.f{padding:30px;border:1px solid var(--line);border-radius:14px;background:#fff;transition:.2s}
+.f:hover{box-shadow:var(--shadow);border-color:#cfd8e8}
+.f .ic{width:48px;height:48px;border-radius:12px;background:#eef3ff;color:var(--primary);display:grid;place-items:center;margin-bottom:18px}
+.f .ic.o{background:#fff1e8;color:var(--accent)}.f .ic.g{background:#e8f7f0;color:var(--green)}
+.f h3{font-size:19px;margin-bottom:8px}
+.f p{color:var(--muted);font-size:15px}
+
+/* PRODUCTS */
+.soft{background:var(--soft)}
+.products{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:stretch}
+.prod{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px;display:flex;flex-direction:column;position:relative}
+.prod.pop{border:2px solid var(--primary);box-shadow:var(--shadow-lg)}
+.badge{position:absolute;top:-13px;left:28px;background:var(--primary);color:#fff;font-size:12px;font-weight:600;padding:4px 12px;border-radius:999px}
+.prod-img{height:150px;border-radius:12px;background:var(--soft);display:grid;place-items:center;margin-bottom:22px}
+.prod h3{font-size:21px}
+.prod .for{color:var(--muted);font-size:14px;margin:4px 0 18px}
+.price{font-family:"Plus Jakarta Sans";font-size:36px;font-weight:800;color:var(--navy)}
+.price small{font-size:14px;color:var(--muted);font-weight:500;font-family:Inter}
+.renew{font-size:13px;color:var(--muted);margin-top:2px}
+.prod ul{list-style:none;margin:20px 0 26px;display:grid;gap:11px;font-size:14.5px;border-top:1px solid var(--line);padding-top:20px}
+.prod li{display:flex;gap:10px;align-items:flex-start}
+.prod li svg{color:var(--green);width:18px;height:18px;margin-top:2px}
+.prod .btn{margin-top:auto}
+.pay{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:32px;color:var(--muted);font-size:14px;align-items:center}
+.pay span{padding:6px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;font-weight:600;font-size:13px}
+
+/* STEPS */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;position:relative}
+.step{text-align:center;padding:0 10px}
+.num{width:56px;height:56px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;background:#fff;border:2px solid var(--primary);color:var(--primary);font-family:"Plus Jakarta Sans";font-weight:800;font-size:20px;position:relative;z-index:1}
+.steps::before{content:"";position:absolute;top:28px;left:12%;right:12%;border-top:2px dashed var(--line)}
+.step h3{font-size:18px;margin-bottom:6px}
+.step p{color:var(--muted);font-size:14.5px}
+
+/* INDUSTRIES */
+.ind{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.ind div{display:flex;align-items:center;gap:12px;padding:18px 20px;border:1px solid var(--line);border-radius:12px;background:#fff;font-weight:600;color:var(--navy);font-size:15px}
+.ind svg{color:var(--primary)}
+
+/* APP */
+.app{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center}
+.app h2{font-size:clamp(28px,4vw,40px);margin-bottom:14px}
+.app p{color:var(--muted);font-size:17px}
+.app ul{list-style:none;margin:22px 0 28px;display:grid;gap:12px}
+.app li{display:flex;gap:10px;align-items:center}
+.app li svg{color:var(--green)}
+.stores{display:flex;gap:12px;flex-wrap:wrap}
+.store{display:flex;align-items:center;gap:10px;background:var(--navy);color:#fff;padding:10px 18px;border-radius:10px;font-size:12px;line-height:1.2}
+.store b{display:block;font-size:15px}
+.phone{width:260px;height:520px;margin:0 auto;border-radius:38px;border:10px solid var(--navy);background:#eef2f7;position:relative;overflow:hidden;box-shadow:var(--shadow-lg)}
+.phone svg.m{position:absolute;inset:0;width:100%;height:100%}
+.sheet{position:absolute;left:10px;right:10px;bottom:10px;background:#fff;border-radius:16px;padding:14px;font-size:12px;box-shadow:var(--shadow)}
+.sheet b{color:var(--navy);font-size:15px}
+.acts{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:12px}
+.acts span{text-align:center;padding:8px 0;border-radius:8px;background:var(--soft);font-weight:600;color:var(--navy)}
+.acts span.r{background:#fff1e8;color:var(--accent)}
+
+/* REVIEWS */
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.rev{background:#fff;border:1px solid var(--line);border-radius:14px;padding:28px}
+.stars{color:#f5a400;letter-spacing:2px}
+.rev p{margin:12px 0 20px;font-size:15px;color:var(--text)}
+.who{display:flex;align-items:center;gap:12px;font-size:14px}
+.av{width:40px;height:40px;border-radius:50%;background:#eef3ff;color:var(--primary);display:grid;place-items:center;font-weight:700}
+.who span{display:block;color:var(--muted);font-size:13px}
+.cities{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:48px}
+.cities span{padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:14px;color:var(--muted)}
+
+/* FAQ */
+.faq{max-width:800px;margin:0 auto;border-top:1px solid var(--line)}
+details{border-bottom:1px solid var(--line);padding:20px 4px}
+summary{cursor:pointer;font-weight:600;color:var(--navy);list-style:none;display:flex;justify-content:space-between;gap:16px;font-size:16.5px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--primary);font-size:22px;line-height:1;font-weight:400}
+details[open] summary::after{content:"−"}
+details p{color:var(--muted);margin-top:10px;font-size:15px}
+
+/* CTA + FOOTER */
+.cta{background:var(--navy);border-radius:20px;padding:56px;display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap}
+.cta h2{color:#fff;font-size:clamp(26px,3.5vw,36px)}
+.cta p{color:#b8c5dc;margin-top:8px}
+.cta .btns{display:flex;gap:12px;flex-wrap:wrap}
+.cta .btn-outline{background:transparent;color:#fff;border-color:rgba(255,255,255,.3)}
+footer{background:#081a35;color:#a9b7cf;margin-top:96px;padding:64px 0 28px}
+.foot{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.3fr;gap:36px}
+footer .brand{color:#fff;margin-bottom:14px}
+footer h4{color:#fff;font-size:15px;margin-bottom:16px}
+footer a,footer p{display:block;font-size:14.5px;margin-bottom:9px}
+footer a:hover{color:#fff}
+.contact a{display:flex;align-items:center;gap:8px}
+.contact svg{width:16px;height:16px}
+.copy{border-top:1px solid rgba(255,255,255,.08);margin-top:44px;padding-top:24px;font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+/* CHAT BUTTON (placeholder — chatbot in a later step) */
+.chat-fab{position:fixed;right:22px;bottom:22px;z-index:60;display:flex;align-items:center;gap:10px;background:var(--primary);color:#fff;padding:14px 20px;border-radius:999px;font-weight:600;font-size:14.5px;box-shadow:0 12px 28px -8px rgba(21,84,209,.55);cursor:pointer}
+
+.reveal{opacity:0;transform:translateY(18px);transition:.7s ease}
+.reveal.in{opacity:1;transform:none}
+
+@media (max-width:980px){
+  .hero-grid,.app{grid-template-columns:1fr}
+  .feat,.products,.reviews{grid-template-columns:1fr 1fr}
+  .steps,.ind{grid-template-columns:1fr 1fr}
+  .steps::before{display:none}
+  .stats .wrap{grid-template-columns:1fr 1fr}
+  .stat:nth-child(2){border-right:0}
+  .stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .foot{grid-template-columns:1fr 1fr}
+  .nav-links,.nav-cta .btn-outline{display:none}
+  .burger{display:block}
+}
+@media (max-width:620px){
+  section{padding:72px 0}
+  .feat,.products,.reviews,.ind{grid-template-columns:1fr}
+  .dash-body{grid-template-columns:1fr;height:auto}
+  .side{display:none}.mapv{height:320px}
+  .topbar .hide-m{display:none}
+  .nav-cta .btn-primary{display:none}
+  .cta{padding:36px 24px}
+  .foot{grid-template-columns:1fr}
+  .chat-fab span{display:none}.chat-fab{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <span><svg class="i" viewBox="0 0 24 24"><path d="M12 22s7-7.8 7-13a7 7 0 0 0-14 0c0 5.2 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>Serving Andhra Pradesh & Telangana</span>
+  <span class="hide-m"><svg class="i" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>+91 73309 84620 &nbsp;·&nbsp; info@bharatgps.com</span>
+</div></div>
+
+<nav>
+  <div class="wrap nav-in">
+    <a href="#" class="brand"><span class="brand-mark"><svg class="i" viewBox="0 0 24 24" style="width:20px;height:20px"><path d="M12 22s7-7.8 7-13a7 7 0 0 0-14 0c0 5.2 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg></span>Bharat<b>GPS</b></a>
+    <div class="nav-links">
+      <a href="#solutions">Solutions</a><a href="#shop">Products</a><a href="#how">How it works</a><a href="#app">App</a><a href="#faq">Support</a>
+    </div>
+    <div class="nav-cta">
+      <a href="https://bharatgps.com" class="btn btn-outline">Customer Login</a>
+      <a href="#shop" class="btn btn-primary">Buy Now</a>
+      <button class="burger" aria-label="Menu"><svg class="i" viewBox="0 0 24 24" style="width:28px;height:28px"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div class="reveal">
+      <span class="pill"><em>Live</em> Trusted GPS tracking partner in AP & Telangana</span>
+      <h1>Smart GPS tracking for every <span>vehicle you own</span></h1>
+      <p class="lead">Track your car, bike, truck or entire fleet in real time. Get instant alerts, stop your engine remotely and view detailed trip reports — with doorstep installation by our own technicians.</p>
+      <div class="hero-ctas">
+        <a href="#shop" class="btn btn-primary">View Products & Prices</a>
+        <a href="#contact" class="btn btn-outline">Request a Callback</a>
+      </div>
+      <div class="checks">
+        <span><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Free installation</span>
+        <span><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>1-year warranty</span>
+        <span><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Local support</span>
+      </div>
+    </div>
+
+    <div class="dash reveal">
+      <div class="dash-top"><i></i><i></i><i></i><small>BharatGPS · Live Dashboard</small></div>
+      <div class="dash-body">
+        <div class="side">
+          <h5>My Vehicles (4)</h5>
+          <div class="veh on"><b>AP 31 BX 4521</b><span class="st mv">Moving · 48 km/h</span></div>
+          <div class="veh"><b>AP 39 TC 1187</b><span class="st id">Idle · 6 min</span></div>
+          <div class="veh"><b>TS 09 EK 7730</b><span class="st mv">Moving · 62 km/h</span></div>
+          <div class="veh"><b>AP 05 AZ 3302</b><span class="st off">Parked</span></div>
+        </div>
+        <div class="mapv">
+          <svg viewBox="0 0 400 380" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="380" fill="#eef2f7"/>
+            <path d="M0 90 L400 130 M0 250 L400 210 M90 0 L130 380 M280 0 L250 380" stroke="#fff" stroke-width="16"/>
+            <path d="M0 170 Q200 150 400 60" stroke="#fff" stroke-width="10" fill="none"/>
+            <rect x="150" y="150" width="80" height="50" rx="6" fill="#dfe8d8"/>
+            <rect x="300" y="250" width="70" height="60" rx="6" fill="#dfe8d8"/>
+            <path d="M330 0 Q360 120 400 140 L400 0z" fill="#d6e6f5"/>
+            <path id="route" d="M40 330 L105 250 L130 190 L250 165 L265 110 L340 80" fill="none" stroke="#1554d1" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="40" cy="330" r="6" fill="#fff" stroke="#1554d1" stroke-width="3"/>
+            <g><circle r="14" fill="rgba(21,84,209,.18)"/><circle r="7" fill="#1554d1" stroke="#fff" stroke-width="2.5"/>
+              <animateMotion dur="10s" repeatCount="indefinite"><mpath href="#route"/></animateMotion></g>
+          </svg>
+          <div class="card-f cf2"><svg class="i" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>Overspeed alert</div>
+          <div class="card-f cf1">
+            <div><span>Speed</span><b>48 km/h</b></div>
+            <div><span>Today</span><b>126 km</b></div>
+            <div><span>Ignition</span><b style="color:var(--green)">ON</b></div>
+            <div><span>Engine</span><b>Unlocked</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="stats"><div class="wrap">
+  <div class="stat reveal"><b>10,000+</b><span>Vehicles tracked</span></div>
+  <div class="stat reveal"><b>15+</b><span>Cities served</span></div>
+  <div class="stat reveal"><b>99.9%</b><span>Platform uptime</span></div>
+  <div class="stat reveal"><b>24×7</b><span>Customer support</span></div>
+</div></div>
+
+<!-- FEATURES -->
+<section id="solutions">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Features</span>
+      <h2>Complete control of your vehicles, from anywhere</h2>
+      <p>Reliable hardware, a powerful tracking platform and a support team that's close to you.</p>
+    </div>
+    <div class="feat">
+      <div class="f reveal"><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M12 22s7-7.8 7-13a7 7 0 0 0-14 0c0 5.2 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg></div><h3>Real-time tracking</h3><p>Live location, speed and direction with frequent updates and full route playback for any date.</p></div>
+      <div class="f reveal"><div class="ic o"><svg class="i" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div><h3>Remote engine cut-off</h3><p>Immobilise your vehicle from the app in case of theft or unauthorised use.</p></div>
+      <div class="f reveal"><div class="ic g"><svg class="i" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></div><h3>Instant alerts</h3><p>Ignition on/off, overspeed, power disconnect and tamper alerts on your phone.</p></div>
+      <div class="f reveal"><div class="ic"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-dasharray="3 3"/><circle cx="12" cy="12" r="3"/></svg></div><h3>Geofencing</h3><p>Draw zones around home, office or depot and get notified on every entry and exit.</p></div>
+      <div class="f reveal"><div class="ic o"><svg class="i" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></div><h3>Reports & analytics</h3><p>Daily distance, stoppages, idle time and trip history — exportable for your records.</p></div>
+      <div class="f reveal"><div class="ic g"><svg class="i" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 0 0-5.4-1.8M9 20H2v-2a5 5 0 0 1 10 0v2"/><circle cx="7" cy="7" r="4"/><circle cx="17" cy="9" r="3"/></svg></div><h3>Multi-user access</h3><p>Share access with family, drivers or managers with separate logins and permissions.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="shop" class="soft">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Products</span>
+      <h2>Choose the right tracker for your vehicle</h2>
+      <p>All prices include the GPS device, 1-year tracking subscription and installation.</p>
+    </div>
+    <div class="products">
+      <div class="prod reveal">
+        <div class="prod-img"><svg width="84" height="84" viewBox="0 0 64 64" fill="none"><rect x="14" y="18" width="36" height="28" rx="6" fill="#fff" stroke="#0b2447" stroke-width="2"/><circle cx="32" cy="32" r="5" fill="#1554d1"/><path d="M22 46v6M42 46v6" stroke="#0b2447" stroke-width="2"/></svg></div>
+        <h3>BharatGPS Lite</h3><div class="for">For two-wheelers</div>
+        <div class="price">₹2,499 <small>incl. GST</small></div>
+        <div class="renew">Renewal from ₹999/year</div>
+        <ul>
+          <li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Live tracking & route history</li>
+          <li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Ignition & power-cut alerts</li>
+          <li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Mobile & web app</li>
+        </ul>
+        <a href="#" class="btn btn-outline">Buy Lite</a>
+      </div>
+      <div class="prod pop reveal">
+        <span class="badge">Most popular</span>
+        <div class="prod-img"><svg width="84" height="84" viewBox="0 0 64 64" fill="none"><rect x="12" y="16" width="40" height="32" rx="7" fill="#fff" stroke="#0b2447" stroke-width="2"/><circle cx="32" cy="32" r="6" fill="#1554d1"/><rect x="18" y="22" width="6" height="3" rx="1.5" fill="#10a36b"/><path d="M20 48v6M44 48v6M28 48v6M36 48v6" stroke="#0b2447" stroke-width="2"/></svg></div>
+        <h3>BharatGPS Pro</h3><div class="for">For cars & commercial vehicles</div>
+        <div class="price">₹3,999 <small>incl. GST</small></div>
+        <div class="renew">Renewal from ₹1,499/year</div>
+        <ul>
+          <li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Everything in Lite</li>
+          <li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Remote engine cut-off</li>
+          <li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Geofence & overspeed alerts</li>
+          <li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Free doorstep installation</li>
+        </ul>
+        <a href="#" class="btn btn-primary">Buy Pro</a>
+      </div>
+      <div class="prod reveal">
+        <div class="prod-img"><svg width="84" height="84" viewBox="0 0 64 64" fill="none"><rect x="6" y="20" width="32" height="22" rx="3" fill="#fff" stroke="#0b2447" stroke-width="2"/><path d="M38 26h10l8 8v8H38z" fill="#fff" stroke="#0b2447" stroke-width="2"/><circle cx="16" cy="44" r="4" fill="#1554d1"/><circle cx="46" cy="44" r="4" fill="#1554d1"/></svg></div>
+        <h3>BharatGPS Fleet</h3><div class="for">For trucks, buses & fleets</div>
+        <div class="price">₹5,999 <small>incl. GST</small></div>
+        <div class="renew">Volume pricing for 10+ vehicles</div>
+        <ul>
+          <li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Everything in Pro</li>
+          <li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Trip, stoppage & km reports</li>
+          <li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Fleet dashboard, multiple users</li>
+          <li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Dedicated account manager</li>
+        </ul>
+        <a href="#" class="btn btn-outline">Buy Fleet</a>
+      </div>
+    </div>
+    <div class="pay reveal">Secure payment via <span>UPI</span><span>Cards</span><span>Net Banking</span><span>Wallets</span></div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="eyebrow">How it works</span><h2>Up and running in four simple steps</h2></div>
+    <div class="steps">
+      <div class="step reveal"><div class="num">1</div><h3>Order online</h3><p>Select your tracker and complete payment securely.</p></div>
+      <div class="step reveal"><div class="num">2</div><h3>Confirmation call</h3><p>Our team confirms vehicle details and schedules a visit.</p></div>
+      <div class="step reveal"><div class="num">3</div><h3>Installation</h3><p>A trained technician installs the device at your location.</p></div>
+      <div class="step reveal"><div class="num">4</div><h3>Start tracking</h3><p>Receive your login and track your vehicle immediately.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section class="soft">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="eyebrow">Industries</span><h2>Built for individuals and businesses</h2></div>
+    <div class="ind reveal">
+      <div><svg class="i" viewBox="0 0 24 24"><path d="M5 17h14v-5l-2-5H7l-2 5z"/><circle cx="8" cy="17" r="2"/><circle cx="16" cy="17" r="2"/></svg>Personal Cars</div>
+      <div><svg class="i" viewBox="0 0 24 24"><circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M6 17l5-7h4l3 7M11 10l-2-4H7"/></svg>Two-Wheelers</div>
+      <div><svg class="i" viewBox="0 0 24 24"><rect x="2" y="7" width="13" height="10" rx="1"/><path d="M15 10h4l3 3v4h-7"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>Logistics & Trucks</div>
+      <div><svg class="i" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="15" rx="2"/><path d="M4 11h16M8 21v-3M16 21v-3"/></svg>School Buses</div>
+      <div><svg class="i" viewBox="0 0 24 24"><path d="M5 17h14v-5l-2-5H7l-2 5z"/><path d="M10 4h4v3h-4z"/></svg>Taxis & Cabs</div>
+      <div><svg class="i" viewBox="0 0 24 24"><circle cx="7" cy="17" r="4"/><circle cx="18" cy="18" r="2"/><path d="M7 13V6h6l3 6v6"/></svg>Tractors</div>
+      <div><svg class="i" viewBox="0 0 24 24"><path d="M3 18h12V9H8L3 14z"/><path d="M15 12l6-6M17 4h4v4"/></svg>Construction Equipment</div>
+      <div><svg class="i" viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg>Enterprises</div>
+    </div>
+  </div>
+</section>
+
+<!-- APP -->
+<section id="app">
+  <div class="wrap app">
+    <div class="reveal">
+      <span class="eyebrow">Mobile App</span>
+      <h2>Your vehicles, always within reach</h2>
+      <p>The BharatGPS app gives you full control on Android, iPhone and the web.</p>
+      <ul>
+        <li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Live map with traffic view</li>
+        <li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>One-tap engine lock</li>
+        <li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Trip playback and daily reports</li>
+        <li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Share live location with family</li>
+      </ul>
+      <div class="stores">
+        <a href="#" class="store"><svg class="i" viewBox="0 0 24 24" style="fill:#fff;stroke:none"><path d="M4 3l10 9-10 9z"/><path d="M14 12l3-3 4 2.3c.8.5.8 1.4 0 1.9L17 15z" opacity=".7"/></svg><div>Get it on<b>Google Play</b></div></a>
+        <a href="#" class="store"><svg class="i" viewBox="0 0 24 24" style="fill:#fff;stroke:none"><path d="M16.5 12.6c0-2.4 2-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.2-2.8.8-3.5.8s-1.8-.8-3-.8C7 7.2 5.4 8.2 4.6 9.7c-1.7 2.9-.4 7.2 1.2 9.5.8 1.1 1.7 2.4 2.9 2.4s1.6-.8 3-.8 1.8.8 3 .7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.6 1.3-2.6s-2.3-.9-2.3-4zM14.3 5.6c.6-.8 1.1-1.8 1-2.9-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.7-1.3z"/></svg><div>Download on the<b>App Store</b></div></a>
+      </div>
+    </div>
+    <div class="phone reveal">
+      <svg class="m" viewBox="0 0 240 500" preserveAspectRatio="xMidYMid slice">
+        <rect width="240" height="500" fill="#eef2f7"/>
+        <path d="M0 120 L240 160 M0 300 L240 260 M70 0 L100 500 M180 0 L160 500" stroke="#fff" stroke-width="12"/>
+        <path id="r2" d="M40 400 L90 300 L130 220 L170 150 L190 60" fill="none" stroke="#1554d1" stroke-width="4" stroke-linecap="round"/>
+        <g><circle r="12" fill="rgba(21,84,209,.18)"/><circle r="6" fill="#1554d1" stroke="#fff" stroke-width="2"/><animateMotion dur="8s" repeatCount="indefinite"><mpath href="#r2"/></animateMotion></g>
+      </svg>
+      <div class="sheet"><b>My Swift Dzire</b><br><span class="st mv">Moving · 52 km/h</span><div style="color:var(--muted);margin-top:4px">NH16, near Anakapalli</div>
+        <div class="acts"><span class="r">Lock</span><span>Replay</span><span>Share</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="soft">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="eyebrow">Testimonials</span><h2>Trusted by customers across the region</h2></div>
+    <div class="reviews">
+      <div class="rev reveal"><div class="stars">★★★★★</div><p>I received an ignition alert late at night and locked the engine from the app. The vehicle was recovered the same night.</p><div class="who"><div class="av">RK</div><div>Ravi Kumar<span>Car owner, Visakhapatnam</span></div></div></div>
+      <div class="rev reveal"><div class="stars">★★★★★</div><p>We track 22 lorries on one dashboard. The daily distance and stoppage reports have improved our operations significantly.</p><div class="who"><div class="av">ST</div><div>Srinivas Transports<span>Fleet owner, Vijayawada</span></div></div></div>
+      <div class="rev reveal"><div class="stars">★★★★★</div><p>Parents now check the bus location themselves. Calls to our office have reduced and parents feel more secure.</p><div class="who"><div class="av">SP</div><div>School Administrator<span>Guntur</span></div></div></div>
+    </div>
+    <div class="cities reveal">
+      <span>Visakhapatnam</span><span>Vijayawada</span><span>Hyderabad</span><span>Guntur</span><span>Rajahmundry</span><span>Kakinada</span><span>Nellore</span><span>Tirupati</span><span>Warangal</span><span>Srikakulam</span><span>Vizianagaram</span>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="eyebrow">FAQ</span><h2>Frequently asked questions</h2></div>
+    <div class="faq reveal">
+      <details><summary>Is installation included in the price?</summary><p>Yes. Installation by our trained technician is included for orders within our service cities.</p></details>
+      <details><summary>What happens after the first year?</summary><p>You renew the tracking subscription at the yearly renewal price. The device remains yours.</p></details>
+      <details><summary>Will the tracker drain my vehicle battery?</summary><p>No. The device draws very little power and switches to a low-power mode when the vehicle is parked.</p></details>
+      <details><summary>Can I track multiple vehicles with one account?</summary><p>Yes. All your vehicles appear on a single map under one login, on both app and web.</p></details>
+      <details><summary>Is engine cut-off safe?</summary><p>Yes. Our technician will explain how the cut-off works and how to use it safely during installation.</p></details>
+    </div>
+  </div>
+</section>
+
+<div class="wrap" id="contact"><div class="cta reveal">
+  <div><h2>Ready to secure your vehicle?</h2><p>Order online or speak with our team for fleet and bulk pricing.</p></div>
+  <div class="btns"><a href="#shop" class="btn btn-primary">Buy Now</a><a href="tel:+917330984620" class="btn btn-outline">Call Sales</a></div>
+</div></div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div><a href="#" class="brand"><span class="brand-mark"><svg class="i" viewBox="0 0 24 24" style="width:20px;height:20px"><path d="M12 22s7-7.8 7-13a7 7 0 0 0-14 0c0 5.2 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg></span>Bharat<b>GPS</b></a>
+        <p>Sribharat GPS Tracker Private Limited — GPS vehicle tracking solutions for individuals, schools and businesses.</p></div>
+      <div><h4>Products</h4><a href="#shop">BharatGPS Lite</a><a href="#shop">BharatGPS Pro</a><a href="#shop">BharatGPS Fleet</a><a href="#solutions">School Bus Tracking</a></div>
+      <div><h4>Company</h4><a href="#">About Us</a><a href="#">Careers</a><a href="#">Privacy Policy</a><a href="#">Terms & Refunds</a></div>
+      <div class="contact"><h4>Contact</h4>
+        <a href="tel:+917330984620"><svg class="i" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>+91 73309 84620</a>
+        <a href="mailto:info@bharatgps.com"><svg class="i" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>info@bharatgps.com</a>
+        <p style="display:flex;gap:8px"><svg class="i" viewBox="0 0 24 24" style="width:16px;height:16px;margin-top:3px"><path d="M12 22s7-7.8 7-13a7 7 0 0 0-14 0c0 5.2 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>Visakhapatnam, Andhra Pradesh</p>
+      </div>
+    </div>
+    <div class="copy"><span>© 2026 Sribharat GPS Tracker Pvt Ltd. All rights reserved.</span><span>bharatgpstracker.com</span></div>
+  </div>
+</footer>
+
+<div class="chat-fab" title="Chat with us"><svg class="i" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Chat with us</span></div>
+
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
