@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#FF423D">
+<title>Bharat GPS Chat Desk</title>
+<link rel="icon" type="image/png" href="../assets/favicon-32.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Bharat GPS Chat Desk (Oct 2026, same desk as ScanPlay): three panes on desktop (inbox with tabs | conversation | visitor details);
+   one pane at a time on phones. Live visitors is a full table. */
+:root{--bg:#F4F6F8;--panel:#FFFFFF;--ink:#1E2430;--mute:#677184;--line:#E3E7ED;--violet:#E2302B;--violet-soft:#FFEDEC;--coral:#FF423D;--ok:#119C5B;--ok-soft:#E3F6EC;--warn:#B76E00;--warn-soft:#FFF3DC;--danger:#D92D20;
+  --sans:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+@media (prefers-color-scheme: dark){:root{--bg:#11151C;--panel:#1A2029;--ink:#E8ECF2;--mute:#9AA4B5;--line:#2A323E;--violet:#FF7A75;--violet-soft:#3A1E21;--coral:#FF6B66;--ok:#43D18F;--ok-soft:#173528;--warn:#F2B44C;--warn-soft:#3A2C12;--danger:#FF8A80;color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;display:flex;flex-direction:column}
+button{font-family:var(--sans)}
+.btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);font-weight:600;font-size:13px;border-radius:9px;padding:7px 12px;cursor:pointer;white-space:nowrap}
+.btn:hover{border-color:var(--violet)}
+a.btn{text-decoration:none;display:inline-block}
+.btn.pri{background:var(--violet);border-color:var(--violet);color:#fff}
+.btn:disabled{opacity:.6;cursor:default}
+.btn:focus-visible,.tab:focus-visible,.item:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+input,textarea{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;padding:9px 11px;font:14px var(--sans);width:100%}
+.hide{display:none!important}
+/* sign in */
+.login{margin:auto;width:100%;max-width:360px;padding:24px;display:flex;flex-direction:column;gap:12px}
+.login h2{margin:0;font-size:20px}.login p{margin:0;color:var(--mute)}
+.err{color:var(--danger);font-size:13px;min-height:16px}
+/* desk */
+.desk{flex:1;display:flex;flex-direction:column;min-height:0}
+.top{display:flex;align-items:center;gap:14px;padding:10px 16px;padding-top:max(10px,env(safe-area-inset-top));background:var(--panel);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px}
+.logo{width:30px;height:30px;object-fit:contain}
+.tabs{display:flex;gap:4px;background:var(--bg);border-radius:10px;padding:3px}
+.tab{border:0;background:transparent;color:var(--mute);font-weight:600;font-size:13px;padding:7px 12px;border-radius:8px;cursor:pointer;display:flex;gap:6px;align-items:center}
+.tab[aria-selected="true"]{background:var(--panel);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.tab b{font-size:11px;background:var(--violet-soft);color:var(--violet);border-radius:9px;padding:1px 7px}
+.tab b.hot{background:var(--coral);color:#fff}
+.right{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mute);flex-wrap:wrap}
+.me{display:flex;align-items:center;gap:7px;margin-right:4px}.me i{width:8px;height:8px;border-radius:50%;background:var(--ok)}
+.alerts{background:var(--warn-soft);color:var(--warn);padding:9px 16px;display:flex;gap:10px;align-items:center;font-size:13px;border-bottom:1px solid var(--line)}
+.body{flex:1;display:grid;grid-template-columns:300px minmax(0,1fr) 280px;min-height:0;background:var(--panel)}
+.list{border-right:1px solid var(--line);overflow-y:auto;min-height:0;display:flex;flex-direction:column}
+.search{padding:10px 12px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel);z-index:1}
+.item{display:flex;gap:10px;padding:11px 12px;border-bottom:1px solid var(--line);cursor:pointer;align-items:flex-start}
+.item:hover{background:var(--bg)}.item.sel{background:var(--violet-soft)}
+.av{flex:none;width:36px;height:36px;border-radius:50%;background:var(--violet-soft);color:var(--violet);display:grid;place-items:center;font-weight:700;position:relative}
+.av i{position:absolute;right:-1px;bottom:-1px;width:10px;height:10px;border-radius:50%;background:var(--ok);border:2px solid var(--panel)}
+.mid{flex:1;min-width:0}.mid b{display:flex;justify-content:space-between;gap:6px;font-size:14px}.mid b small{font-weight:400;color:var(--mute);font-size:12px;flex:none}
+.mid b span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mid>span{display:block;font-size:13px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.chip{font-size:11px;font-weight:600;border-radius:7px;padding:2px 7px;background:var(--bg);color:var(--mute);white-space:nowrap}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}.chip.warn{background:var(--warn-soft);color:var(--warn)}.chip.v{background:var(--violet-soft);color:var(--violet)}
+.unread{flex:none;min-width:20px;height:20px;border-radius:10px;background:var(--coral);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;padding:0 6px}
+.empty{padding:36px 20px;text-align:center;color:var(--mute);line-height:1.6}
+.conv{display:flex;flex-direction:column;min-height:0;min-width:0}
+.chead{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.chead .mid b{font-size:15px}
+.msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:8px;background:var(--bg);min-height:0}
+.m{max-width:70%;padding:9px 13px;border-radius:14px;line-height:1.5;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
+.m small{display:block;font-size:11px;opacity:.65;margin-top:3px;text-align:right}
+.m.a{align-self:flex-end;background:var(--violet);color:#fff;border-bottom-right-radius:4px}
+.m.v{align-self:flex-start;background:var(--panel);border:1px solid var(--line);border-bottom-left-radius:4px}
+.sys{align-self:center;font-size:12px;color:var(--mute);background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:3px 10px;text-align:center}
+.sys.i{border-style:dashed}
+.quick{display:flex;gap:6px;flex-wrap:wrap;padding:8px 16px 0}
+.quick button{border:1px dashed var(--line);background:transparent;color:var(--mute);font-size:12px;border-radius:16px;padding:4px 10px;cursor:pointer}
+.quick button:hover{color:var(--violet);border-color:var(--violet)}
+.comp{display:flex;gap:8px;padding:12px 16px;padding-bottom:max(12px,env(safe-area-inset-bottom));border-top:1px solid var(--line);align-items:flex-end}
+.comp textarea{flex:1;resize:none;height:44px;max-height:140px}
+.info{border-left:1px solid var(--line);overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:18px;min-height:0}
+.info h3{margin:0 0 8px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px 12px;font-size:13px;margin:0}.kv dt{color:var(--mute)}.kv dd{margin:0;text-align:right;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.trail{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:13px}
+.trail li{display:flex;justify-content:space-between;gap:8px}.trail li span{color:var(--mute);font-variant-numeric:tabular-nums;flex:none}
+.noconv{flex:1;display:grid;place-items:center;color:var(--mute);background:var(--bg);text-align:center;padding:24px;line-height:1.6}
+.livewrap{grid-column:1 / -1;overflow:auto;min-height:0}
+.tbl{width:100%;border-collapse:collapse;font-size:13px;min-width:820px}
+.tbl th{text-align:left;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);padding:10px 12px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel);font-weight:600}
+.tbl td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:middle;font-variant-numeric:tabular-nums}
+.tbl td small{display:block;color:var(--mute);font-size:12px}
+.ctools{display:flex;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line);flex-wrap:wrap;align-items:center;position:sticky;left:0}
+.ctools input{flex:1;min-width:180px;width:auto}
+.btn[aria-pressed="true"]{background:var(--violet-soft);border-color:var(--violet);color:var(--violet)}
+.qrow{display:grid;grid-template-columns:140px minmax(0,1fr) auto;gap:8px;align-items:start}
+.qrow .x{border:0;background:transparent;color:var(--mute);font-size:18px;cursor:pointer;padding:6px}
+.modal{position:fixed;inset:0;background:rgba(15,20,30,.45);display:grid;place-items:center;padding:16px;z-index:10}
+.card{background:var(--panel);border-radius:14px;width:100%;max-width:520px;max-height:90vh;overflow:auto;padding:20px;display:flex;flex-direction:column;gap:12px}
+.card h2{margin:0;font-size:17px}.card label{font-size:12px;font-weight:600;color:var(--mute)}
+.card .row2{display:grid;grid-template-columns:140px minmax(0,1fr);gap:8px}
+.card textarea{min-height:64px;resize:vertical}
+.card .acts{display:flex;justify-content:flex-end;gap:8px}
+@media (max-width:980px){.body{grid-template-columns:260px minmax(0,1fr)}.info{display:none}.body.show-info .info{display:flex;grid-column:2;grid-row:1;border-left:0}.body.show-info .conv{display:none}}
+@media (min-width:981px){#infob{display:none}}
+@media (max-width:700px){
+  .top{gap:10px}.right .me span{display:none}
+  .body{grid-template-columns:1fr}.list{border-right:0}
+  .body.show-conv .list{display:none}.body:not(.show-conv) .conv{display:none}
+  .body.show-info .info{grid-column:1}
+  .m{max-width:85%}
+  .chead{gap:8px}.chead .mid{flex:1 1 calc(100% - 110px)}.chead .mid b span,.chead .mid>span{white-space:normal}
+}
+@media (min-width:701px){#back{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head><body>
+
+<div class="login" id="login">
+  <img src="../assets/logo.png" alt="Bharat GPS Tracker" style="width:170px;align-self:center"><h2>Bharat GPS Chat Desk</h2><p>Sign in with the website admin password.</p>
+  <input id="pw" type="password" placeholder="Password" autocomplete="current-password">
+  <div class="err" id="lerr"></div><button class="btn pri" id="lgo">Sign in</button>
+</div>
+
+<div class="desk hide" id="desk">
+  <div class="top">
+    <div class="brand"><img class="logo" src="../assets/logo-square.png" alt="" aria-hidden="true">Bharat GPS Chat</div>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" id="t-chats" aria-selected="true">Chats <b id="n-chats">0</b></button>
+      <button class="tab" role="tab" id="t-live" aria-selected="false">Live visitors <b id="n-live">0</b></button>
+      <button class="tab" role="tab" id="t-hist" aria-selected="false">History</button>
+      <button class="tab" role="tab" id="t-cont" aria-selected="false">Contacts <b id="n-cont">0</b></button>
+    </div>
+    <div class="right"><span class="me"><i></i><span id="meName">Online</span></span><button class="btn" id="alertsTop">Alerts</button><a class="btn" href="../admin/">Admin panel</a><button class="btn" id="setb">Settings</button></div>
+  </div>
+  <div class="alerts hide" id="alerts"><span id="alertsTxt">Turn on alerts to hear about every visitor and message, even when this page is closed.</span><button class="btn" id="alertsBtn">Turn on alerts</button></div>
+
+  <div class="body" id="body">
+    <div class="list" id="list">
+      <div class="search"><input id="q" placeholder="Search name, mobile or city" autocomplete="off"></div>
+      <div id="items"></div>
+    </div>
+
+    <div class="conv" id="conv">
+      <div class="noconv" id="noconv">Pick a chat on the left,<br>or start one from Live visitors.</div>
+      <div class="hide" id="chatbox" style="display:flex;flex-direction:column;flex:1;min-height:0">
+        <div class="chead">
+          <button class="btn" id="back" aria-label="Back to chats">&larr;</button>
+          <div class="av" id="cav">?</div>
+          <div class="mid"><b><span id="ctitle"></span></b><span id="csub"></span></div>
+          <span id="cacct"></span><span class="chip" id="cwin"></span>
+          <span id="ccall"></span>
+          <button class="btn" id="infob">Details</button>
+          <button class="btn" id="endb">End chat</button>
+        </div>
+        <div class="msgs" id="msgs" aria-live="polite"></div>
+        <div class="quick" id="quick"></div>
+        <div class="comp"><textarea id="tx" placeholder="Type a reply. Enter to send, Shift+Enter for a new line"></textarea><button class="btn pri" id="snd">Send</button></div>
+      </div>
+    </div>
+
+    <aside class="info" id="info"><div class="empty">Visitor details show here.</div></aside>
+
+    <div class="livewrap hide" id="cont">
+      <div class="ctools"><input id="cq" placeholder="Search name, mobile or city" autocomplete="off"><button class="btn" id="cOffers" aria-pressed="false">Only agreed to offers</button><button class="btn pri" id="cCsv">Download Excel (CSV)</button></div>
+      <table class="tbl">
+        <thead><tr><th>Name</th><th>Mobile</th><th>Place</th><th>Offers on WhatsApp</th><th>First chat</th><th>Last chat</th><th></th></tr></thead>
+        <tbody id="crows"></tbody>
+      </table>
+      <div class="empty hide" id="cEmpty">No contacts yet.<br>Every name and mobile a visitor gives in the chat is saved here.</div>
+    </div>
+
+    <div class="livewrap hide" id="live">
+      <table class="tbl">
+        <thead><tr><th>Visitor</th><th>Place</th><th>IP</th><th>Page now</th><th>On site</th><th>Chat window</th><th>Device</th><th></th></tr></thead>
+        <tbody id="liverows"></tbody>
+      </table>
+      <div class="empty hide" id="liveEmpty">Nobody is on the website right now.<br>Visitors appear here the moment they open any page of the website.</div>
+    </div>
+  </div>
+</div>
+
+<div class="modal hide" id="setModal" role="dialog" aria-label="Settings">
+  <div class="card">
+    <h2>Settings</h2>
+    <label for="sName">Your name shown to visitors</label><input id="sName" maxlength="30">
+    <label>Quick answers (buttons above the reply box; {name} becomes your name)</label>
+    <div id="sQuick" style="display:flex;flex-direction:column;gap:10px"></div>
+    <button class="btn" id="sAdd" style="align-self:flex-start">Add quick answer</button>
+    <label for="sClose">Closing message (sent when you press End chat)</label><textarea id="sClose" maxlength="1000"></textarea>
+    <div class="err" id="sErr"></div>
+    <div class="acts"><button class="btn" id="sLogout">Sign out</button><span style="flex:1"></span><button class="btn" id="sCancel">Cancel</button><button class="btn pri" id="sSave">Save</button></div>
+  </div>
+</div>
+
+<script>
+var closing='',PASS='',cur=0,last=0,timer=null,listTimer=null,shown={},myName='',quick=[],evSeen=-1,evTimer=null,tab='chats',data=null,liveAt=0,pushOn=false;
+var app=window.SPAgent||null;   /* the Android app (kept for later) passes the password to its background notifier */
+function el(id){return document.getElementById(id)}
+function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return null}}
+function api(action,o,cb){var f=new FormData();f.append('action',action);for(var p in (o||{}))f.append(p,o[p]);
+  fetch('api.php?action='+action+'&_='+Date.now(),{method:'POST',headers:{'X-Agent-Pass':PASS},body:f,cache:'no-store'}).then(function(r){return r.json()})
+    .then(function(r){if(!r.ok&&r.auth)logout(r.error);else cb(r)}).catch(function(){cb({ok:false,error:'No connection'})})}
+function esc(s){return String(s==null?'':s).replace(/[<>&"]/g,function(c){return{'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]})}
+function ago(ts){var s=Math.floor(Date.now()/1000)-ts;if(s<60)return'now';if(s<3600)return Math.floor(s/60)+'m';if(s<86400)return Math.floor(s/3600)+'h';var d=new Date(ts*1000);return d.getDate()+'/'+(d.getMonth()+1)}
+function hhmm(ts){return new Date(ts*1000).toLocaleTimeString('en-IN',{hour:'numeric',minute:'2-digit'})}
+function dur(s){s=Math.max(0,s|0);var m=Math.floor(s/60),h=Math.floor(m/60);return h?h+'h '+(m%60)+'m':(m?m+'m '+(s%60)+'s':s+'s')}
+function nth(n){var t=n%100,e=(t>10&&t<14)?'th':({1:'st',2:'nd',3:'rd'}[n%10]||'th');return n+e}
+function winChip(w,online){if(!online)return'<span class="chip">Left the site</span>';
+  return w==='open'?'<span class="chip ok">Chat open</span>':w==='min'?'<span class="chip warn">Chat minimised</span>':'<span class="chip">Chat not opened yet</span>'}
+function phoneFmt(p){return p?'+91 '+p.slice(0,5)+' '+p.slice(5):''}
+
+/* ---- alerts: sound + notification for every visitor, chat and message ---- */
+var actx=null;
+function ding(title,body,chat,soundOnly){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();[0,0.18].forEach(function(t,i){var o=actx.createOscillator(),g=actx.createGain();o.frequency.value=i?1320:880;o.connect(g);g.connect(actx.destination);g.gain.setValueAtTime(0.0001,actx.currentTime+t);g.gain.exponentialRampToValueAtTime(0.3,actx.currentTime+t+0.02);g.gain.exponentialRampToValueAtTime(0.0001,actx.currentTime+t+0.25);o.start(actx.currentTime+t);o.stop(actx.currentTime+t+0.3)})}catch(e){}
+  if(navigator.vibrate)navigator.vibrate([150,80,150]);
+  if(!soundOnly&&!app&&!pushOn&&window.Notification&&Notification.permission==='granted'){try{var n=new Notification(title||'Bharat GPS Chat',{body:body||'',tag:'ev'+Date.now()});n.onclick=function(){window.focus();if(chat)openChat(chat)}}catch(e){}}}
+function watchEvents(){clearTimeout(evTimer);if(!PASS)return;api('events',{since:evSeen<0?0:evSeen},function(r){
+  if(r.ok&&r.events){if(evSeen<0){evSeen=r.events.length?r.events[0].id:0}else if(r.events.length){evSeen=r.events[0].id;
+    r.events.slice(0,5).reverse().forEach(function(e,i){setTimeout(function(){ding(e.title,e.body,e.chat,e.kind==='msg'&&cur===e.chat&&!document.hidden)},i*700)})}}
+  evTimer=setTimeout(watchEvents,4000)})}
+
+/* ---- sign in ---- */
+function login(p,isToken){PASS=isToken?p:'';api('login',isToken?{}:{password:p},function(r){if(!r.ok){el('lerr').textContent=r.error||'Could not sign in';PASS='';return}
+  PASS=r.token;ls('bgt_token',PASS);el('pw').value='';myName=r.name;quick=r.quick||[];closing=r.closing||'';if(app&&app.setPass)app.setPass(PASS);
+  el('login').classList.add('hide');el('desk').classList.remove('hide');el('meName').textContent=myName+' · online';drawQuick();
+  loadAll();loadContacts();watchEvents();setupPush();var q=/[?&]chat=(\d+)/.exec(location.search);if(q)openChat(+q[1])})}
+function logout(msg){PASS='';clearTimeout(evTimer);clearTimeout(timer);clearTimeout(listTimer);evSeen=-1;cur=0;ls('bgt_token',null);if(app&&app.setPass)app.setPass('');
+  el('desk').classList.add('hide');el('setModal').classList.add('hide');el('login').classList.remove('hide');el('lerr').textContent=msg||''}
+el('lgo').onclick=function(){var p=el('pw').value;if(!p){el('lerr').textContent='Enter the password';return}login(p)};
+el('pw').onkeydown=function(e){if(e.key==='Enter')el('lgo').click()};el('pw').oninput=function(){el('lerr').textContent=''};
+
+/* ---- tabs ---- */
+function setTab(t){tab=t;['chats','live','hist','cont'].forEach(function(x){el('t-'+x).setAttribute('aria-selected',x===t?'true':'false')});
+  var lv=t==='live',ct=t==='cont',full=lv||ct;el('live').classList.toggle('hide',!lv);el('cont').classList.toggle('hide',!ct);
+  el('list').classList.toggle('hide',full);el('conv').classList.toggle('hide',full);el('info').classList.toggle('hide',full);
+  if(lv)renderLive();else if(ct)loadContacts();else renderList()}
+el('t-cont').onclick=function(){setTab('cont')};
+el('t-chats').onclick=function(){setTab('chats')};el('t-live').onclick=function(){setTab('live')};el('t-hist').onclick=function(){setTab('hist')};
+function acctChip(a){return a==='signed'?'<span class="chip v">Registered · signed in</span>':a==='reg'?'<span class="chip v">Registered</span>':''}
+/* ---- contacts: every name + mobile from chats, for promotions ---- */
+var contacts=[],onlyOffers=false;
+function loadContacts(){api('contacts',{},function(r){if(!r.ok)return;contacts=r.contacts;el('n-cont').textContent=contacts.length;if(tab==='cont')renderContacts()})}
+function shownContacts(){var q=el('cq').value.trim().toLowerCase();return contacts.filter(function(c){return(!onlyOffers||c.offers)&&(!q||(c.name+' '+c.phone+' '+c.place).toLowerCase().indexOf(q)>=0)})}
+function dt(ts){return new Date(ts*1000).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'})}
+function renderContacts(){var list=shownContacts();
+  el('crows').innerHTML=list.map(function(c){return'<tr><td><b>'+esc(c.name)+'</b></td><td>'+esc(phoneFmt(c.phone))+'</td><td>'+esc(c.place)+'</td>'+
+    '<td>'+(c.offers?'<span class="chip ok">Agreed</span>':'<span class="chip">Not agreed</span>')+'</td><td>'+dt(c.first)+'</td><td>'+dt(c.last)+'</td>'+
+    '<td><a class="btn" href="https://wa.me/91'+esc(c.phone)+'" target="_blank" rel="noopener">WhatsApp</a> <button class="btn oc" data-chat="'+c.chat_id+'">Open chat</button></td></tr>'}).join('');
+  el('cEmpty').classList.toggle('hide',!!list.length)}
+el('cq').oninput=renderContacts;
+el('cOffers').onclick=function(){onlyOffers=!onlyOffers;this.setAttribute('aria-pressed',onlyOffers?'true':'false');renderContacts()};
+el('crows').onclick=function(e){var b=e.target.closest('.oc');if(b&&+b.dataset.chat)openChat(+b.dataset.chat)};
+el('cCsv').onclick=function(){var rows=[['Name','Mobile','Place','Agreed to offers','First chat','Last chat','Page']];
+  shownContacts().forEach(function(c){rows.push([c.name,'+91'+c.phone,c.place,c.offers?'Yes':'No',dt(c.first),dt(c.last),c.page])});
+  var csv='\ufeff'+rows.map(function(r){return r.map(function(v){v=String(v==null?'':v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}).join(',')}).join('\r\n');
+  var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='bharatgps-chat-contacts-'+new Date().toISOString().slice(0,10)+'.csv';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500)};
+
+/* ---- data: chats + live visitors every 4 s ---- */
+function loadAll(){clearTimeout(listTimer);api('chats',{},function(r){if(r.ok){data=r;liveAt=Date.now();
+  var unread=r.chats.reduce(function(a,c){return a+c.unread},0),open=r.chats.filter(function(c){return c.status!=='closed'}).length;
+  el('n-chats').textContent=unread||open;el('n-chats').className=unread?'hot':'';el('n-live').textContent=r.live.length;
+  if(tab==='live')renderLive();else if(tab!=='cont')renderList()}
+  listTimer=setTimeout(loadAll,4000)})}
+setInterval(function(){if(PASS)loadContacts()},30000);
+function renderList(){if(!data)return;var q=el('q').value.trim().toLowerCase(),h='';
+  data.chats.filter(function(c){return (tab==='hist')===(c.status==='closed')}).filter(function(c){return !q||(c.title+' '+c.phone+' '+c.place).toLowerCase().indexOf(q)>=0})
+  .forEach(function(c){h+='<div class="item'+(c.id===cur?' sel':'')+'" tabindex="0" data-id="'+c.id+'"><div class="av">'+esc(c.title.charAt(0).toUpperCase())+(c.online?'<i></i>':'')+'</div>'+
+    '<div class="mid"><b><span>'+esc(c.title)+'</span><small>'+ago(c.last)+'</small></b><span>'+(c.lastwho==='a'?'You: ':'')+esc(c.lastmsg||'Chat started')+'</span>'+
+    '<div class="chips">'+acctChip(c.acct)+winChip(c.win,c.online)+(c.online?'<span class="chip">'+esc(c.nowPage)+'</span>':'')+'</div></div>'+(c.unread?'<span class="unread">'+c.unread+'</span>':'')+'</div>'});
+  el('items').innerHTML=h||'<div class="empty">'+(tab==='hist'?'Ended chats show here.':(q?'No chat matches your search.':'No chats yet.<br>Start one from Live visitors, or wait for a visitor to write.'))+'</div>'}
+el('q').oninput=renderList;
+el('items').onclick=function(e){var r=e.target.closest('.item');if(r)openChat(+r.dataset.id)};
+el('items').onkeydown=function(e){if(e.key==='Enter'){var r=e.target.closest('.item');if(r)openChat(+r.dataset.id)}};
+function renderLive(){if(!data)return;var add=Math.floor((Date.now()-liveAt)/1000),h='';
+  data.live.forEach(function(v){h+='<tr><td><b>'+esc(v.name||'Visitor')+'</b> '+acctChip(v.acct)+(v.from?'<small>from '+esc(v.from)+'</small>':'')+'</td><td>'+esc(v.place)+'</td>'+
+    '<td>'+esc(v.ip)+(v.visits>1?' <span class="chip v">'+nth(v.visits)+' visit</span>':'')+'</td><td>'+esc(v.pageName)+'</td>'+
+    '<td class="ts" data-s="'+v.secs+'">'+dur(v.secs+add)+'</td><td>'+winChip(v.win,true)+'</td><td>'+esc(v.device||'')+'</td>'+
+    '<td><button class="btn'+(v.chat?'':' pri')+' sb" data-v="'+esc(v.vid)+'" data-chat="'+(v.chat||0)+'">'+(v.chat?'Open chat':'Start chat')+'</button></td></tr>'});
+  el('liverows').innerHTML=h;el('liveEmpty').classList.toggle('hide',!!data.live.length)}
+setInterval(function(){if(tab!=='live')return;var add=Math.floor((Date.now()-liveAt)/1000);document.querySelectorAll('#liverows .ts').forEach(function(t){t.textContent=dur(+t.dataset.s+add)})},1000);
+el('liverows').onclick=function(e){var b=e.target.closest('.sb');if(!b)return;
+  if(+b.dataset.chat){setTab('chats');openChat(+b.dataset.chat);return}
+  b.disabled=true;b.textContent='Starting…';api('start',{v:b.dataset.v},function(r){if(r.ok){setTab('chats');openChat(r.id);loadAll()}else{b.disabled=false;b.textContent='Start chat';alert(r.error||'Could not start the chat')}})};
+
+/* ---- conversation ---- */
+function openChat(id){if(tab==='live'||tab==='cont')setTab('chats');cur=id;last=0;shown={};el('msgs').innerHTML='';el('noconv').classList.add('hide');el('chatbox').classList.remove('hide');
+  el('body').classList.add('show-conv');el('body').classList.remove('show-info');renderList();pollChat();setTimeout(function(){el('tx').focus()},50)}
+function draw(m){if(shown[m.id])return;shown[m.id]=1;var d=document.createElement('div');
+  if(m.who==='s'||m.who==='i'){d.className='sys'+(m.who==='i'?' i':'');d.textContent=m.body+' · '+hhmm(m.ts)}
+  else{d.className='m '+m.who;d.textContent=m.body;var t=document.createElement('small');t.textContent=hhmm(m.ts);d.appendChild(t)}
+  var box=el('msgs'),atEnd=box.scrollHeight-box.scrollTop-box.clientHeight<80;box.appendChild(d);if(atEnd||m.who==='a')box.scrollTop=box.scrollHeight}
+function pollChat(){clearTimeout(timer);var id=cur;if(!id)return;api('msgs',{id:id,after:last},function(r){if(cur!==id)return;if(r.ok){var c=r.chat;
+  el('ctitle').textContent=c.title;el('cav').innerHTML=esc(c.title.charAt(0).toUpperCase())+(c.online?'<i></i>':'');
+  el('csub').textContent=(c.phone?phoneFmt(c.phone)+' · ':'Name and number not given yet · ')+c.place+(c.status==='closed'?' · ended':'');
+  el('cwin').outerHTML=winChip(c.win,c.online).replace('<span class="chip','<span id="cwin" class="chip');
+  el('cacct').innerHTML=c.account?acctChip(c.signedIn?'signed':'reg'):'';
+  el('ccall').innerHTML=c.phone?'<a class="btn" href="tel:+91'+esc(c.phone)+'">Call</a> <a class="btn" href="https://wa.me/91'+esc(c.phone)+'" target="_blank" rel="noopener">WhatsApp</a>':'';
+  el('endb').textContent=c.status==='closed'?'Ended':'End chat';el('endb').disabled=c.status==='closed';
+  var t=(c.trail||[]).slice().reverse().map(function(p){return'<li>'+esc(p.p)+' <span>'+hhmm(p.t)+'</span></li>'}).join('');
+  el('info').innerHTML='<section><h3>Right now</h3><dl class="kv"><dt>Status</dt><dd>'+(c.online?'<span class="chip ok">On the site</span>':'<span class="chip">Not on the site'+(c.lastSeen?' · last seen '+ago(c.lastSeen):'')+'</span>')+'</dd>'+
+    (c.online?'<dt>Chat window</dt><dd>'+(c.win==='open'?'Open':c.win==='min'?'Minimised':'Not opened yet')+'</dd><dt>Page</dt><dd>'+esc(c.nowPage)+'</dd><dt>Time on site</dt><dd>'+dur(c.secs)+'</dd>':'')+'</dl></section>'+
+    (c.account?'<section><h3>ScanPlay account</h3><dl class="kv"><dt>Status</dt><dd><span class="chip v">'+(c.signedIn?'Signed in now':'Registered')+'</span></dd><dt>Name</dt><dd>'+esc(c.account.name)+'</dd><dt>Email</dt><dd>'+esc(c.account.email)+'</dd>'+
+      (c.account.phone?'<dt>Phone</dt><dd>'+esc(c.account.phone)+'</dd>':'')+'<dt>Type</dt><dd>'+esc(c.account.type)+(c.account.business?' · '+esc(c.account.business):'')+'</dd>'+
+      '<dt>Credits</dt><dd>'+c.account.credits+(c.account.free?' + '+c.account.free+' free today':'')+'</dd><dt>Joined</dt><dd>'+new Date(c.account.joined*1000).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})+'</dd></dl></section>':'')+
+    '<section><h3>Visitor</h3><dl class="kv">'+(c.name?'<dt>Name</dt><dd>'+esc(c.name)+'</dd><dt>Mobile</dt><dd>'+esc(phoneFmt(c.phone))+'</dd>':'')+'<dt>Place</dt><dd>'+esc(c.place)+'</dd><dt>IP</dt><dd>'+esc(c.ip)+'</dd><dt>Visits from this IP</dt><dd>'+c.visits+'</dd>'+
+    (c.from?'<dt>Came from</dt><dd>'+esc(c.from)+'</dd>':'')+(c.device?'<dt>Device</dt><dd>'+esc(c.device)+'</dd>':'')+'<dt>Chat started</dt><dd>'+new Date(c.created*1000).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'})+'</dd></dl></section>'+
+    (t?'<section><h3>Pages this visit</h3><ul class="trail">'+t+'</ul></section>':'');
+  r.msgs.forEach(function(m){draw(m);last=Math.max(last,m.id)})}
+  timer=setTimeout(pollChat,2500)})}
+el('back').onclick=function(){cur=0;clearTimeout(timer);el('body').classList.remove('show-conv','show-info');el('chatbox').classList.add('hide');el('noconv').classList.remove('hide');renderList()};
+el('infob').onclick=function(){el('body').classList.toggle('show-info')};
+function reply(){var v=el('tx').value.trim();if(!v||!cur)return;el('tx').value='';el('tx').style.height='44px';
+  api('reply',{id:cur,body:v},function(r){if(!r.ok){el('tx').value=v;alert(r.error||'Not sent');return}pollChat();loadAll()})}
+el('snd').onclick=reply;
+el('tx').onkeydown=function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();reply()}};
+el('tx').oninput=function(){this.style.height='44px';this.style.height=Math.min(140,this.scrollHeight)+'px'};
+el('endb').onclick=function(){if(!cur||!confirm('End this chat? Your closing message is sent first. The visitor can still write again later.'))return;api('close',{id:cur},function(){pollChat();loadAll()})};
+function drawQuick(){el('quick').innerHTML=quick.map(function(x,i){return'<button data-i="'+i+'">'+esc(x.label)+'</button>'}).join('')}
+el('quick').onclick=function(e){var b=e.target.closest('button');if(!b)return;var t=quick[+b.dataset.i].text.replace(/\{name\}/g,myName);el('tx').value=t;el('tx').focus();el('tx').oninput.call(el('tx'))};
+
+/* ---- settings: name + quick replies ---- */
+function qRow(x){var d=document.createElement('div');d.className='qrow';d.innerHTML='<input class="ql" placeholder="Button name" maxlength="40" value="'+esc(x.label)+'"><textarea class="qt" placeholder="Message">'+esc(x.text)+'</textarea><button class="x" aria-label="Remove">&times;</button>';
+  d.querySelector('.x').onclick=function(){d.remove()};el('sQuick').appendChild(d)}
+el('sAdd').onclick=function(){if(el('sQuick').children.length<12)qRow({label:'',text:''})};
+el('setb').onclick=function(){el('sName').value=myName;el('sClose').value=closing;el('sErr').textContent='';el('sQuick').innerHTML='';quick.forEach(qRow);
+  el('setModal').classList.remove('hide');el('sName').focus()};
+el('sCancel').onclick=function(){el('setModal').classList.add('hide')};
+el('sLogout').onclick=function(){logout('')};
+el('sSave').onclick=function(){var n=el('sName').value.trim();if(!n){el('sErr').textContent='Enter your name';return}
+  var qs=[];el('sQuick').querySelectorAll('.qrow').forEach(function(r){var l=r.querySelector('.ql').value.trim(),t=r.querySelector('.qt').value.trim();if(l&&t)qs.push({label:l,text:t})});
+  if(!qs.length){el('sErr').textContent='Add at least one quick answer';return}
+  if(!el('sClose').value.trim()){el('sErr').textContent='Write the closing message';return}
+  api('setname',{name:n},function(r){if(!r.ok){el('sErr').textContent=r.error;return}myName=r.name;el('meName').textContent=myName+' · online';
+    api('quick_set',{quick:JSON.stringify(qs),closing:el('sClose').value.trim()},function(r2){if(!r2.ok){el('sErr').textContent=r2.error;return}quick=r2.quick;closing=r2.closing;drawQuick();el('setModal').classList.add('hide')})})};
+
+window.spOpenChat=function(id){if(PASS&&id)openChat(+id)};
+if(navigator.serviceWorker)navigator.serviceWorker.addEventListener('message',function(e){if(e.data&&e.data.openChat)window.spOpenChat(e.data.openChat)});
+document.addEventListener('visibilitychange',function(){if(!document.hidden&&PASS){loadAll();if(cur)pollChat();watchEvents()}});
+
+/* ---- browser alerts even when this page is closed (Web Push through sw.js) ---- */
+function b64ToBytes(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var b=atob(s),a=new Uint8Array(b.length);for(var i=0;i<b.length;i++)a[i]=b.charCodeAt(i);return a}
+function alertsLabel(){el('alertsTop').textContent=pushOn?'Alerts on':(window.Notification&&Notification.permission==='granted'?'Alerts on (page open)':'Turn on alerts')}
+function setupPush(){alertsLabel();if(app||!('serviceWorker' in navigator)||!('PushManager' in window)||!window.Notification)return;
+  if(Notification.permission==='granted')subscribe();else if(Notification.permission!=='denied')el('alerts').classList.remove('hide');else{el('alerts').classList.remove('hide');el('alertsTxt').textContent='Alerts are blocked for this site. Allow notifications in the browser settings to get alerts.';el('alertsBtn').classList.add('hide')}}
+function subscribe(){navigator.serviceWorker.register('sw.js').then(function(reg){return navigator.serviceWorker.ready.then(function(){return reg})}).then(function(reg){
+  api('push_key',{},function(k){if(!k.ok)return;reg.pushManager.getSubscription().then(function(s){return s||reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64ToBytes(k.key)})})
+    .then(function(s){api('push_sub',{endpoint:s.endpoint},function(r){if(r.ok){pushOn=true;el('alerts').classList.add('hide');alertsLabel()}})}).catch(function(){})})}).catch(function(){})}
+function askAlerts(){if(!window.Notification)return;Notification.requestPermission().then(function(p){if(p==='granted'){subscribe();alertsLabel()}else el('alertsTxt').textContent='Alerts were not allowed. Allow notifications in the browser settings to get alerts.'})}
+el('alertsBtn').onclick=askAlerts;el('alertsTop').onclick=function(){if(!pushOn)askAlerts()};
+
+var saved=ls('bgt_token');if(saved)login(saved,true);
+</script>
+</body></html>

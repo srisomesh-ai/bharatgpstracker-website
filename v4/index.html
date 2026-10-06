@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#fffdf9;--cream:#fff6ec;--soft:#f7f4ef;--line:#ece6dc;--text:#1a1d24;--muted:#646b78;--saffron:#f26a1b;--saffron-d:#d95a0f;--green:#0f8a5f;--navy:#13274a}
+:root{--bg:#fffdf9;--cream:#FFF1F0;--soft:#f7f4ef;--line:#ece6dc;--text:#1a1d24;--muted:#646b78;--saffron:#FF423D;--saffron-d:#E0302B;--green:#0f8a5f;--navy:#13274a}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:"DM Sans",system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
@@ -28,7 +28,7 @@ section{padding:90px 0}
 
 /* offer bar */
 .offer{background:var(--navy);color:#fff;text-align:center;font-size:14px;padding:10px 16px}
-.offer b{color:#ffb27a}
+.offer b{color:#FF8F8B}
 nav{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
 .nav-in{height:74px;display:flex;align-items:center;justify-content:space-between}
 .brand{display:flex;align-items:center;gap:10px;font-size:23px;font-weight:800}
@@ -50,7 +50,7 @@ nav{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-
 .rating .st{color:#f5a400;letter-spacing:1px}
 .hero h1{font-size:clamp(38px,5.4vw,62px);margin:22px 0 18px}
 .hero h1 em{font-style:normal;color:var(--saffron);position:relative;white-space:nowrap}
-.hero h1 em::after{content:"";position:absolute;left:0;right:0;bottom:4px;height:10px;background:rgba(242,106,27,.18);z-index:-1;border-radius:4px}
+.hero h1 em::after{content:"";position:absolute;left:0;right:0;bottom:4px;height:10px;background:rgba(255,66,61,.16);z-index:-1;border-radius:4px}
 .hero .lead{font-size:18px;color:var(--muted);max-width:540px}
 .usps{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:30px 0;max-width:540px}
 .usps div{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;font-weight:600;font-size:14.5px;color:var(--navy)}
@@ -75,7 +75,7 @@ nav{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-
 .trust .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
 .trust div{padding:28px 16px;text-align:center;border-right:1px solid rgba(255,255,255,.1)}
 .trust div:last-child{border:0}
-.trust b{font-family:Outfit;font-size:30px;display:block;color:#ffb27a}
+.trust b{font-family:Outfit;font-size:30px;display:block;color:#FF8F8B}
 .trust span{font-size:14px;color:#c4cede}
 
 /* products */
@@ -154,6 +154,38 @@ footer a:hover{color:#fff}
 .chat i{width:36px;height:36px;border-radius:50%;background:var(--saffron);display:grid;place-items:center}
 .chat small{display:block;font-weight:500;font-size:12px;color:#9fb0cc}
 .reveal{opacity:0;transform:translateY(18px);transition:.7s ease}.reveal.in{opacity:1;transform:none}
+/* data-driven cards, order form (Oct 2026) */
+.offer[hidden]{display:none}
+.pc .top img{width:100%;height:100%;object-fit:cover}
+.pc .ren{font-size:13px;color:var(--muted);margin-top:4px}
+.pc .acts1{margin-top:auto}.pc .acts1 .btn{width:100%}
+.ferr{color:#D92F2A;font-size:13px;font-weight:600;min-height:18px;margin-top:8px}
+.om{position:fixed;inset:0;z-index:2147483600;background:rgba(19,39,74,.55);display:grid;place-items:center;padding:16px;overflow-y:auto}
+.om-card{position:relative;background:#fff;border-radius:22px;width:100%;max-width:520px;padding:26px;box-shadow:0 40px 80px -30px rgba(0,0,0,.5);margin:auto}
+.om-x{position:absolute;top:10px;right:12px;border:0;background:none;font-size:28px;line-height:1;color:var(--muted);cursor:pointer;padding:4px 8px}
+.om-item{display:flex;gap:14px;align-items:center;padding-bottom:18px;border-bottom:1px solid var(--line);margin-bottom:16px;padding-right:24px}
+.om-pic{width:72px;height:72px;border-radius:14px;background:var(--soft);display:grid;place-items:center;flex:none;overflow:hidden}
+.om-pic svg{width:56px;height:56px}.om-pic img{width:100%;height:100%;object-fit:cover}
+.om-item h3{font-size:19px}.om-item span{display:block;color:var(--muted);font-size:14px}.om-item b{font-family:Outfit;font-size:20px;color:var(--navy)}.om-item b small{font-family:"DM Sans";font-size:13px;color:var(--muted);font-weight:500}
+.om-form{display:flex;flex-direction:column;gap:12px}
+.om-form label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700;color:var(--navy)}
+.om-form input,.om-form select,.om-form textarea{width:100%;padding:12px 13px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-size:15px;font-weight:400;background:#fff;color:var(--text)}
+.om-form input:focus,.om-form select:focus,.om-form textarea:focus{outline:0;border-color:var(--saffron)}
+.om-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.om-pay{display:flex;flex-direction:column;gap:8px}.om-pay>span{font-size:13px;font-weight:700;color:var(--navy)}
+.om-form .po{flex-direction:row;align-items:center;gap:12px;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer;font-weight:400}
+.om-form .po input{width:18px;height:18px;margin:0;accent-color:var(--saffron);flex:none}
+.om-form .po b{display:block;font-size:15px;color:var(--navy)}.om-form .po small{color:var(--muted);font-size:13px}
+.om-form .po:has(input:checked){border-color:var(--saffron);background:var(--cream)}
+.om-total{display:flex;justify-content:space-between;align-items:baseline;padding-top:6px}.om-total span{color:var(--muted)}.om-total b{font-family:Outfit;font-size:26px;color:var(--navy)}
+.om-go{width:100%}.om-go:disabled{opacity:.7;cursor:default}
+.om-note{font-size:13px;color:var(--muted);text-align:center;margin:0}.om-note a{color:var(--saffron);font-weight:700}
+.om-done{text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center;padding:10px 0}
+.om-done h3{font-size:22px}.om-done p{color:var(--muted)}.om-done p b{color:var(--navy)}
+.om-ok{width:64px;height:64px;border-radius:50%;background:#E6F6EF;color:var(--green);display:grid;place-items:center}.om-ok svg{width:34px;height:34px;stroke-width:2.5}
+.om-close{min-width:160px;margin-top:6px}
+@media(max-width:520px){.om{padding:0;align-items:end}.om-card{border-radius:22px 22px 0 0;padding:22px 18px calc(18px + env(safe-area-inset-bottom))}.om-2{grid-template-columns:1fr}}
+
 
 @media(max-width:980px){
   .hero-g,.split{grid-template-columns:1fr}
@@ -176,14 +208,14 @@ footer a:hover{color:#fff}
 </head>
 <body>
 
-<div class="offer">Festive offer: <b>Free installation + ₹500 off</b> on all trackers this month · Use code <b>BHARAT500</b></div>
+<div class="offer" id="offer">Festive offer: <b>Free installation + ₹500 off</b> on all trackers this month</div>
 
 <nav><div class="wrap nav-in">
   <a href="#" class="brand"><img src="../assets/logo.png" alt="Bharat GPS Tracker" class="logo-img" width="800" height="334"></a>
   <div class="links"><a href="#shop">Products</a><a href="#features">Features</a><a href="#how">Installation</a><a href="#reviews">Reviews</a><a href="#faq">FAQ</a></div>
   <div class="nav-r">
-    <a href="tel:+917330984620" class="phone-l"><svg class="i" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>73309 84620</a>
-    <a href="https://bharatgps.com" class="btn btn-o">Login</a>
+    <a href="tel:+919849849824" class="phone-l" id="navPhone"><svg class="i" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg><span>984 984 9824</span></a>
+    <a href="https://bharatgps.com" class="btn btn-o" data-login>Login</a>
     <a href="#shop" class="btn btn-s">Buy Now</a>
   </div>
 </div></nav>
@@ -191,56 +223,57 @@ footer a:hover{color:#fff}
 <header class="hero">
   <div class="wrap hero-g">
     <div class="reveal">
-      <span class="rating"><span class="st">★★★★★</span> 4.8 rating from 2,000+ customers</span>
-      <h1>Protect your vehicle with <em>BharatGPS</em></h1>
-      <p class="lead">Live GPS tracking, remote engine lock and instant theft alerts — installed at your home by our own technicians across Andhra Pradesh & Telangana.</p>
+      <span class="rating"><span class="st">★★★★★</span> <span id="heroRating">4.7 rating on Google Play · 10K+ downloads</span></span>
+      <h1 id="heroTitle">Protect your vehicle with <em>Bharat GPS</em></h1>
+      <p class="lead" id="heroText">Live GPS tracking, engine ON/OFF from your phone and instant theft alerts, installed at your home by our own technicians across Andhra Pradesh & Telangana.</p>
       <div class="usps">
         <div><span class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9z"/></svg></span>Free home installation</div>
         <div><span class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>1-year warranty</div>
-        <div><span class="ic"><svg class="i" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>Remote engine lock</div>
+        <div><span class="ic"><svg class="i" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>Engine ON/OFF from app</div>
         <div><span class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>Telugu & English support</div>
       </div>
       <div class="hero-ctas"><a href="#shop" class="btn btn-s">Shop Trackers</a><a href="#how" class="btn btn-o">How Installation Works</a></div>
     </div>
 
-    <form class="form reveal" onsubmit="event.preventDefault();this.querySelector('button').textContent='Thank you! We will call you shortly.'">
+    <form class="form reveal" id="cbForm" novalidate>
       <h3>Get a free callback</h3>
       <p class="s">Tell us about your vehicle — we'll recommend the right tracker.</p>
       <label>Vehicle type</label>
       <div class="vt">
-        <input type="radio" name="v" id="v1" checked><label for="v1"><svg class="i" viewBox="0 0 24 24"><path d="M5 17h14v-5l-2-5H7l-2 5z"/><circle cx="8" cy="17" r="2"/><circle cx="16" cy="17" r="2"/></svg>Car</label>
-        <input type="radio" name="v" id="v2"><label for="v2"><svg class="i" viewBox="0 0 24 24"><circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M6 17l5-7h4l3 7M11 10l-2-4H7"/></svg>Bike</label>
-        <input type="radio" name="v" id="v3"><label for="v3"><svg class="i" viewBox="0 0 24 24"><rect x="2" y="7" width="13" height="10" rx="1"/><path d="M15 10h4l3 3v4h-7"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>Fleet</label>
+        <input type="radio" name="v" id="v1" value="Car" checked><label for="v1"><svg class="i" viewBox="0 0 24 24"><path d="M5 17h14v-5l-2-5H7l-2 5z"/><circle cx="8" cy="17" r="2"/><circle cx="16" cy="17" r="2"/></svg>Car</label>
+        <input type="radio" name="v" id="v2" value="Bike"><label for="v2"><svg class="i" viewBox="0 0 24 24"><circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M6 17l5-7h4l3 7M11 10l-2-4H7"/></svg>Bike</label>
+        <input type="radio" name="v" id="v3" value="Fleet"><label for="v3"><svg class="i" viewBox="0 0 24 24"><rect x="2" y="7" width="13" height="10" rx="1"/><path d="M15 10h4l3 3v4h-7"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>Fleet</label>
       </div>
-      <label for="n">Your name</label><input id="n" placeholder="Full name" required>
-      <label for="m">Mobile number</label><input id="m" type="tel" placeholder="10-digit mobile" pattern="[0-9]{10}" required>
+      <label for="n">Your name</label><input id="n" placeholder="Full name" autocomplete="name" maxlength="60" required>
+      <label for="m">Mobile number</label><input id="m" type="tel" inputmode="tel" placeholder="10-digit mobile" autocomplete="tel" maxlength="14" required>
       <label for="c">City</label>
-      <select id="c"><option>Visakhapatnam</option><option>Vijayawada</option><option>Hyderabad</option><option>Guntur</option><option>Rajahmundry</option><option>Other</option></select>
+      <select id="c" data-cities><option>Visakhapatnam</option><option>Vijayawada</option><option>Hyderabad</option><option>Guntur</option><option>Rajahmundry</option><option>Kakinada</option><option>Nellore</option><option>Tirupati</option><option>Warangal</option><option>Srikakulam</option><option>Vizianagaram</option><option>Anakapalli</option><option>Other</option></select>
+      <div class="ferr" id="cbErr" role="alert"></div>
       <button class="btn btn-s" type="submit">Request Callback</button>
-      <small>We'll call within 30 minutes during working hours.</small>
+      <small id="cbNote">We'll call within 30 minutes during working hours.</small>
     </form>
   </div>
 </header>
 
 <div class="trust"><div class="wrap">
-  <div><b>10,000+</b><span>Vehicles protected</span></div>
-  <div><b>15+</b><span>Cities covered</span></div>
-  <div><b>30 min</b><span>Average installation</span></div>
-  <div><b>24×7</b><span>Live support</span></div>
+  <div><b id="tVehicles">10,000+</b><span>Vehicles protected</span></div>
+  <div><b id="tCities">12</b><span>Cities covered</span></div>
+  <div><b id="tInstall">30 min</b><span>Average installation</span></div>
+  <div><b id="tSince">2017</b><span>Serving since</span></div>
 </div></div>
 
 <section id="shop"><div class="wrap">
   <div class="head reveal"><div><span class="eye">Shop online</span><h2>Best-selling GPS trackers</h2></div><p>Every tracker includes the device, 1-year tracking plan and installation. Pay securely by UPI, card or net banking.</p></div>
-  <div class="cards">
-    <div class="pc reveal"><div class="top"><span class="off">Save ₹500</span><svg width="90" height="90" viewBox="0 0 64 64" fill="none"><rect x="16" y="18" width="32" height="26" rx="6" fill="#fff" stroke="#13274a" stroke-width="2"/><circle cx="32" cy="31" r="5" fill="#f26a1b"/></svg></div>
+  <div class="cards" id="cards">
+    <div class="pc reveal"><div class="top"><span class="off">Save ₹500</span><svg width="90" height="90" viewBox="0 0 64 64" fill="none"><rect x="16" y="18" width="32" height="26" rx="6" fill="#fff" stroke="#13274a" stroke-width="2"/><circle cx="32" cy="31" r="5" fill="#FF423D"/></svg></div>
       <div class="body"><h3>BharatGPS Lite</h3><div class="for">Bikes & scooters</div><div class="pr"><b>₹2,499</b><s>₹2,999</s></div>
       <ul><li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Live tracking & history</li><li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Ignition & power-cut alerts</li><li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Mobile app access</li></ul>
       <div class="acts"><a href="#" class="btn btn-s">Buy Now</a><a href="#" class="btn btn-o" aria-label="Details"><svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></div></div>
-    <div class="pc best reveal"><div class="top"><span class="off" style="background:var(--saffron)">Bestseller</span><svg width="100" height="100" viewBox="0 0 64 64" fill="none"><rect x="12" y="16" width="40" height="30" rx="7" fill="#fff" stroke="#13274a" stroke-width="2"/><circle cx="32" cy="31" r="6" fill="#f26a1b"/><rect x="18" y="21" width="6" height="3" rx="1.5" fill="#0f8a5f"/></svg></div>
+    <div class="pc best reveal"><div class="top"><span class="off" style="background:var(--saffron)">Bestseller</span><svg width="100" height="100" viewBox="0 0 64 64" fill="none"><rect x="12" y="16" width="40" height="30" rx="7" fill="#fff" stroke="#13274a" stroke-width="2"/><circle cx="32" cy="31" r="6" fill="#FF423D"/><rect x="18" y="21" width="6" height="3" rx="1.5" fill="#0f8a5f"/></svg></div>
       <div class="body"><h3>BharatGPS Pro</h3><div class="for">Cars & commercial vehicles</div><div class="pr"><b>₹3,999</b><s>₹4,499</s></div>
       <ul><li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Everything in Lite</li><li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Remote engine lock</li><li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Geofence & overspeed alerts</li><li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Free home installation</li></ul>
       <div class="acts"><a href="#" class="btn btn-s">Buy Now</a><a href="#" class="btn btn-o" aria-label="Details"><svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></div></div>
-    <div class="pc reveal"><div class="top"><span class="off">Bulk pricing</span><svg width="100" height="90" viewBox="0 0 64 64" fill="none"><rect x="6" y="20" width="32" height="22" rx="3" fill="#fff" stroke="#13274a" stroke-width="2"/><path d="M38 26h10l8 8v8H38z" fill="#fff" stroke="#13274a" stroke-width="2"/><circle cx="16" cy="44" r="4" fill="#f26a1b"/><circle cx="46" cy="44" r="4" fill="#f26a1b"/></svg></div>
+    <div class="pc reveal"><div class="top"><span class="off">Bulk pricing</span><svg width="100" height="90" viewBox="0 0 64 64" fill="none"><rect x="6" y="20" width="32" height="22" rx="3" fill="#fff" stroke="#13274a" stroke-width="2"/><path d="M38 26h10l8 8v8H38z" fill="#fff" stroke="#13274a" stroke-width="2"/><circle cx="16" cy="44" r="4" fill="#FF423D"/><circle cx="46" cy="44" r="4" fill="#FF423D"/></svg></div>
       <div class="body"><h3>BharatGPS Fleet</h3><div class="for">Trucks, buses & fleets</div><div class="pr"><b>₹5,999</b><s>₹6,499</s></div>
       <ul><li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Everything in Pro</li><li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Trip, km & stoppage reports</li><li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Fleet dashboard & account manager</li></ul>
       <div class="acts"><a href="#" class="btn btn-s">Buy Now</a><a href="#" class="btn btn-o" aria-label="Details"><svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></div></div>
@@ -264,18 +297,18 @@ footer a:hover{color:#fff}
 <section class="shots" id="screens">
   <div class="shots-head">
     <h2>See the Bharat GPS app in action</h2>
-    <p><b>4.7 ★</b> on Google Play · <b>10K+</b> downloads</p>
-    <a class="shots-cta" href="https://play.google.com/store/apps/details?id=com.bharatgpstrackerclient.android" target="_blank" rel="noopener">Get it on Google Play →</a>
+    <p><b id="shotRating">4.7 ★</b> on Google Play · <b>10K+</b> downloads</p>
+    <a class="shots-cta" data-play href="https://play.google.com/store/apps/details?id=com.bharatgpstrackerclient.android" target="_blank" rel="noopener">Get it on Google Play →</a>
   </div>
   <div class="shots-row"><img src="https://play-lh.googleusercontent.com/6ITX_EQnaT9u2GrX_SiLeztKHxzboUECANO4dXcuk0F_CxroP8gUq0PWaTX1SsyAKyzvM-Sotab6Zjl0RfvJ4g=h720" alt="Bharat GPS Tracker app screen 1" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><img src="https://play-lh.googleusercontent.com/CTYDv1oEFr2_ZZrHOuqqEIy4h8L7xac-TQiYAEdvv0IVNMAB04-2Ctdw_1kadY17aGmmkJX5zUqPvNQoTycMaw=h720" alt="Bharat GPS Tracker app screen 2" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><img src="https://play-lh.googleusercontent.com/0jic0fPH_0G2UNdSuUqH4hx1_qdVh4OSgbWc2iXD7SSrhH0EZ6v-jDMUHKYUq96trQzbLzZgym6_ISDusR3iAg=h720" alt="Bharat GPS Tracker app screen 3" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><img src="https://play-lh.googleusercontent.com/ELvL2IyE0LB3M1eMa6kGHddmz0BSaMdg1aCijzSrWs4Og0iOAzv_SQS_PMYnBzh-teMnqX_zTptULIQsGGJjoQ=h720" alt="Bharat GPS Tracker app screen 4" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><img src="https://play-lh.googleusercontent.com/GD3mcFP6UY_PtSZmXNNHpDk6aWeRIjasE4nhVQd9RqMhtk4l--GllU-N8v466sDxWj2YpA-anPR0BhUyr0tyzzM=h720" alt="Bharat GPS Tracker app screen 5" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><img src="https://play-lh.googleusercontent.com/z0tjg7nhTQo5PIIY7TiBSWX6NMJsLQT5ODaGmPay-C-5UbBQ1dpcd_Y4hoC6acg0wJiBU5HO4cUcQBYpOYz7TEM=h720" alt="Bharat GPS Tracker app screen 6" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><img src="https://play-lh.googleusercontent.com/JvlYW8X9ypE7ugdA6WYt9xfZWnNeMuHxJjmiGMup5oloVFe0PNvTJCK3rIh5ZgUOGwIbzjLJdfxp6NMeeSIthA=h720" alt="Bharat GPS Tracker app screen 7" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><img src="https://play-lh.googleusercontent.com/Mx2aBaNFBRq2gFr4iCV9yttgK-r7a9uVCcDtktHQyMLoTkmEW69QTbzhUYP8NRn3ouiGW10WOMNLz0eRXgtuIw=h720" alt="Bharat GPS Tracker app screen 8" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><img src="https://play-lh.googleusercontent.com/jtQWBOGx1DhlYg8urf5h1k7IsHzCM5K7_b-xe5X18huxcjL2sb2XJyemKTqSZ2L5axk6S6JNVtQc7ulVPHGGUw=h720" alt="Bharat GPS Tracker app screen 9" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><img src="https://play-lh.googleusercontent.com/zGzMWMOwf9w9_N11UuvZosVLXrjRUagz1Y7wb_ihFOAECUMtb7Dt3vnm6M-68kdgETo-qbW2iosNjHyzaEelGds=h720" alt="Bharat GPS Tracker app screen 10" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><img src="https://play-lh.googleusercontent.com/uxs_L2lGQUTul-hzhfrxccuiOTeXLsnmg6NpSsJwh7aOZ4Yg_Ua3rsSXojaGsZq1oF36Va3fQSWT9R8pA2Kvotg=h720" alt="Bharat GPS Tracker app screen 11" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><img src="https://play-lh.googleusercontent.com/m3ZTYYhRqIaHPafMRnOpp2O4o6UP2yinCTzC8bEd6yP6s1G_6xTJMieXJvm7LeQ7PmQ_3VxAkLyLa77ihmebOQ=h720" alt="Bharat GPS Tracker app screen 12" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><img src="https://play-lh.googleusercontent.com/agK8DwHHDT_Qv0dgSWbMBcG1Rv8aWUSxRPvi3yPEErBOlh9nMwD316u3sOeTEJDL8_grDo1HNeWfebmk1GAO=h720" alt="Bharat GPS Tracker app screen 13" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><img src="https://play-lh.googleusercontent.com/_8L3pyZKBeLDr114EgjN-_reHkttyE2mz92d1S1ruu4GXIOJwwJ1_Y9BCtHLmtre-E2LnhbGSvV4LW7U6k9z=h720" alt="Bharat GPS Tracker app screen 14" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><img src="https://play-lh.googleusercontent.com/GPXWfIaJJ8n0haNZGkXndVMKxQs4-HZDSdUqt4oyE59zz3ij1EGeFSwwigO2YA_ftr4n2GwN2zRm7Iq4xm8it04=h720" alt="Bharat GPS Tracker app screen 15" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><img src="https://play-lh.googleusercontent.com/yC_bWYFxQadJwP7Zzd29Si-YdiVFtufUUtV3jFSbtI8F-_1_D_QJwQ8orU8lj_gI4jvwPc74HfH9ZjY8oqPqGPA=h720" alt="Bharat GPS Tracker app screen 16" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"></div>
 </section>
 <style>
-.shots{padding:80px 0;background:#fff6ec;overflow:hidden}
+.shots{padding:80px 0;background:#FFF1F0;overflow:hidden}
 .shots-head{max-width:1200px;margin:0 auto 32px;padding:0 20px;text-align:center}
 .shots-head h2{font-size:clamp(26px,3.6vw,40px);color:#13274a;margin-bottom:10px}
 .shots-head p{color:#646b78;font-size:16px;margin-bottom:18px}
 .shots-head b{color:#13274a}
-.shots-cta{display:inline-block;color:#f26a1b;font-weight:700}
+.shots-cta{display:inline-block;color:#FF423D;font-weight:700}
 .shots-row{display:flex;gap:18px;overflow-x:auto;padding:10px 20px 24px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
 .shots-row img{height:440px;width:auto;flex:0 0 auto;border-radius:20px;border:1px solid #ece6dc;box-shadow:0 20px 40px -22px rgba(15,27,45,.35);scroll-snap-align:center;background:#fff}
 @media(max-width:640px){.shots{padding:60px 0}.shots-row img{height:340px}}
@@ -307,14 +340,14 @@ footer a:hover{color:#fff}
     <div><b>4</b><div><h4>Start tracking</h4><p>Get your login and track your vehicle immediately.</p></div></div>
   </div></div>
   <div class="box reveal"><h3>Where we install</h3>
-    <div class="cities"><span>Visakhapatnam</span><span>Vijayawada</span><span>Hyderabad</span><span>Guntur</span><span>Rajahmundry</span><span>Kakinada</span><span>Nellore</span><span>Tirupati</span><span>Warangal</span><span>Srikakulam</span><span>Vizianagaram</span><span>Anakapalli</span></div>
+    <div class="cities" id="cityList"><span>Visakhapatnam</span><span>Vijayawada</span><span>Hyderabad</span><span>Guntur</span><span>Rajahmundry</span><span>Kakinada</span><span>Nellore</span><span>Tirupati</span><span>Warangal</span><span>Srikakulam</span><span>Vizianagaram</span><span>Anakapalli</span></div>
     <div class="note"><b>Outside these cities?</b> We can courier a self-install tracker with phone and video support.</div>
   </div>
 </div></section>
 
 <section id="reviews" style="background:var(--soft)"><div class="wrap">
   <div class="head reveal"><div><span class="eye">Reviews</span><h2>What our customers say</h2></div></div>
-  <div class="revs">
+  <div class="revs" id="revs">
     <div class="rv reveal"><div class="st">★★★★★</div><p>Got an ignition alert late at night and locked the engine from the app. Vehicle recovered the same night.</p><div class="who">Ravi Kumar<span>Visakhapatnam · Car owner</span></div></div>
     <div class="rv reveal"><div class="st">★★★★★</div><p>We track 22 lorries on one screen. The daily reports have made our operations far more efficient.</p><div class="who">Srinivas Transports<span>Vijayawada · Fleet owner</span></div></div>
     <div class="rv reveal"><div class="st">★★★★★</div><p>Technician came home, installed in 30 minutes and explained the app in Telugu. Very good service.</p><div class="who">Lakshmi P.<span>Rajahmundry · Scooter owner</span></div></div>
@@ -323,7 +356,7 @@ footer a:hover{color:#fff}
 
 <section id="faq"><div class="wrap">
   <div class="head reveal"><div><span class="eye">FAQ</span><h2>Common questions</h2></div></div>
-  <div class="faq reveal">
+  <div class="faq reveal" id="faqList">
     <details><summary>Is installation free?</summary><p>Yes, installation at your location is free in our service cities.</p></details>
     <details><summary>What is the renewal charge?</summary><p>After one year you renew the tracking plan at a fixed yearly price.</p></details>
     <details><summary>Does it drain the battery?</summary><p>No. It uses very little power and sleeps when the vehicle is parked.</p></details>
@@ -335,20 +368,21 @@ footer a:hover{color:#fff}
 
 <div class="wrap"><div class="band reveal">
   <div><h2>Don't wait for a theft to happen.</h2><p>Order today and get free installation this month.</p></div>
-  <div style="display:flex;gap:12px;flex-wrap:wrap"><a href="#shop" class="btn">Buy Now</a><a href="tel:+917330984620" class="btn w">Call Us</a></div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap"><a href="#shop" class="btn">Buy Now</a><a href="tel:+919849849824" class="btn w" id="bandCall">Call Us</a></div>
 </div></div>
 
 <footer><div class="wrap">
   <div class="fo">
     <div><a href="#" class="brand"><img src="../assets/logo.png" alt="Bharat GPS Tracker" class="logo-img" width="800" height="334"></a><p>Sribharat GPS Tracker Private Limited. Trusted GPS vehicle tracking for families and businesses.</p></div>
-    <div><h4>Products</h4><a href="#shop">Lite</a><a href="#shop">Pro</a><a href="#shop">Fleet</a><a href="#features">School Bus</a></div>
-    <div><h4>Help</h4><a href="https://bharatgps.com">Customer Login</a><a href="#faq">FAQ</a><a href="#">Shipping & Refunds</a><a href="#">Privacy</a></div>
-    <div><h4>Contact</h4><a href="tel:+917330984620">+91 73309 84620</a><a href="mailto:info@bharatgps.com">info@bharatgps.com</a><p>Visakhapatnam, Andhra Pradesh</p></div>
+    <div id="footProducts"><h4>Products</h4><a href="#shop">Bharat GPS Lite</a><a href="#shop">Bharat GPS Pro</a><a href="#shop">Bharat GPS Fleet</a></div>
+    <div><h4>Help</h4><a href="https://bharatgps.com" data-login>Customer Login</a><a href="#faq">FAQ</a><a href="#">Shipping & Refunds</a><a href="#">Privacy</a></div>
+    <div id="footContact"><h4>Contact</h4><a href="tel:+919849849824">984 984 9824</a><a href="tel:+918448448929">844 844 8929</a><a href="mailto:sales@bharatgps.com">sales@bharatgps.com</a><p>301, 3rd Floor, SL Ajay Arcade, Sheela Nagar, Visakhapatnam</p><p>Call centre: Mon–Sat, 6 AM – 9 PM</p></div>
   </div>
-  <div class="cp">© 2026 Sribharat GPS Tracker Pvt Ltd. All rights reserved.</div>
+  <div class="cp">© 2026 Sri Bharat GPS Tracker Private Limited. All rights reserved.</div>
 </div></footer>
 
-<div class="chat"><i><svg class="i" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></i><span>Need help?<small>Chat with our team</small></span></div>
 <script>const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.1});document.querySelectorAll('.reveal').forEach(el=>io.observe(el));</script>
+<script src="site.js" defer></script>
+<script src="../livechat/widget.js" data-site="bharatgps" data-title="Bharat GPS support" defer></script>
 </body>
 </html>

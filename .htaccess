@@ -1,0 +1,21 @@
+# Bharat GPS Tracker website
+Options -Indexes
+
+# Never serve server files: database, config, samples
+<FilesMatch "\.(db|db-wal|db-shm|sqlite)$">
+  Require all denied
+</FilesMatch>
+<Files "config.php">
+  Require all denied
+</Files>
+<Files "config.sample.php">
+  Require all denied
+</Files>
+
+RewriteEngine On
+RewriteRule ^data(/|$) - [F,L]
+
+# Pages and scripts: always check for a fresh copy so admin changes and deploys show at once
+<FilesMatch "\.(html|js)$">
+  Header set Cache-Control "no-cache, must-revalidate"
+</FilesMatch>
