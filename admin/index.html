@@ -156,7 +156,7 @@ label.f textarea{min-height:90px;resize:vertical;line-height:1.5}
     <button class="nav" data-s="set">Settings</button>
     <div class="sep"></div>
     <a class="nav" href="../livechat/agent.html">Chat desk ↗</a>
-    <a class="nav" href="../v4/" target="_blank" rel="noopener">View website ↗</a>
+    <a class="nav" href="../" target="_blank" rel="noopener">View website ↗</a>
     <div class="foot">Changes show on the website as soon as you save.<button class="btn sm" id="logout" style="align-self:flex-start">Sign out</button></div>
   </nav>
   <main id="main"></main>
@@ -286,7 +286,7 @@ function drawLeads(){var list=shownLeads();
 
 function inp(k,label,c,extra){return'<label class="f">'+label+'<input data-c="'+k+'" value="'+esc(c[k])+'"'+(extra||'')+'></label>'}
 V.site=function(){api('content',{},function(r){if(!r.ok){el('main').innerHTML='<div class="empty">'+esc(r.error)+'</div>';return}var c=r.content;
-  el('main').innerHTML=head('Website content','Text, numbers and contact details shown on the website.','<a class="btn" href="../v4/" target="_blank" rel="noopener">View website</a><button class="btn pri" id="cSave">Save changes</button>')+
+  el('main').innerHTML=head('Website content','Text, numbers and contact details shown on the website.','<a class="btn" href="../" target="_blank" rel="noopener">View website</a><button class="btn pri" id="cSave">Save changes</button>')+
   '<div class="grid2"><div class="sec"><div class="card"><h2>Offer bar &amp; home page</h2><div class="form">'+
   '<div class="toggle"><div><b>Show offer bar</b><span>Strip at the very top of the page</span></div><button class="sw" role="switch" data-cb="offer_on" aria-checked="'+(c.offer_on?'true':'false')+'" aria-label="Show offer bar"></button></div>'+
   inp('offer_text','Offer text',c)+inp('hero_title','Home page headline',c)+

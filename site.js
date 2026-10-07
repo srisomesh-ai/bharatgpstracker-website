@@ -1,8 +1,8 @@
-/* Bharat GPS website (V4): fills the page from the admin panel (../api.php?action=site), and runs the
+/* Bharat GPS website: fills the page from the admin panel (api.php?action=site), and runs the
    "Buy Now" order form and the "Get a free callback" form. The HTML already holds the same details, so the
    page reads fine even before (or without) the data. */
 (function () {
-  var API = '../api.php';
+  var API = 'api.php';
   var D = null;
   function $(s, r) { return (r || document).querySelector(s); }
   function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
@@ -55,7 +55,7 @@
     var box = $('#cards'); if (!box || !D.products.length) return;
     box.innerHTML = D.products.map(function (p) {
       var badge = p.popular ? '<span class="off" style="background:var(--saffron)">Bestseller</span>' : (p.mrp > p.price ? '<span class="off">Save ' + inr(p.mrp - p.price) + '</span>' : '');
-      var pic = p.image ? '<img src="../' + esc(p.image) + '" alt="' + esc(p.name) + '" loading="lazy">' : (DEV[p.icon] || DEV.car);
+      var pic = p.image ? '<img src="' + esc(p.image) + '" alt="' + esc(p.name) + '" loading="lazy">' : (DEV[p.icon] || DEV.car);
       var feats = p.features.slice(); if (p.free_install && !feats.some(function (f) { return /install/i.test(f); })) feats.push('Free doorstep installation');
       var out = p.stock === 'Out of stock';
       return '<div class="pc reveal in' + (p.popular ? ' best' : '') + '"><div class="top">' + badge + pic + '</div><div class="body"><h3>' + esc(p.name) + '</h3><div class="for">' + esc(p.descr || p.cat) + '</div>' +
@@ -96,7 +96,7 @@
     closeModal();
     modal = document.createElement('div'); modal.className = 'om'; modal.setAttribute('role', 'dialog'); modal.setAttribute('aria-modal', 'true'); modal.setAttribute('aria-label', 'Order ' + cur.name);
     modal.innerHTML = '<div class="om-card"><button class="om-x" type="button" aria-label="Close">×</button>' +
-      '<div class="om-item"><div class="om-pic">' + (cur.image ? '<img src="../' + esc(cur.image) + '" alt="">' : (DEV[cur.icon] || DEV.car)) + '</div><div><h3>' + esc(cur.name) + '</h3><span>' + esc(cur.descr || cur.cat) + '</span><b>' + inr(cur.price) + ' <small>each, incl. GST</small></b></div></div>' +
+      '<div class="om-item"><div class="om-pic">' + (cur.image ? '<img src="' + esc(cur.image) + '" alt="">' : (DEV[cur.icon] || DEV.car)) + '</div><div><h3>' + esc(cur.name) + '</h3><span>' + esc(cur.descr || cur.cat) + '</span><b>' + inr(cur.price) + ' <small>each, incl. GST</small></b></div></div>' +
       '<form class="om-form" novalidate>' +
       (fleet ? '<label>How many vehicles?<input name="qty" type="number" min="1" max="50" value="1" inputmode="numeric"></label>' : '<input type="hidden" name="qty" value="1">') +
       '<div class="om-2"><label>Your name<input name="name" autocomplete="name" maxlength="60" required></label><label>Mobile number<input name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="14" required></label></div>' +
