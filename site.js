@@ -1,5 +1,5 @@
 /* Bharat GPS website: fills the page from the admin panel (api.php?action=site), and runs the
-   "Buy Now" order form and the "Get a free callback" form. The HTML already holds the same details, so the
+   "Buy Now" order form and the "Get a free callback" form. Also used by products.html (window.BGT). The HTML already holds the same details, so the
    page reads fine even before (or without) the data. */
 (function () {
   var API = 'api.php';
@@ -45,7 +45,7 @@
     var fc = $('#footContact');
     if (fc) fc.innerHTML = '<h4>Contact</h4>' + [c.phone1, c.phone2].filter(Boolean).map(function (p) { return '<a href="' + telHref(p) + '">' + esc(p) + '</a>'; }).join('') +
       (c.email_sales ? '<a href="mailto:' + esc(c.email_sales) + '">' + esc(c.email_sales) + '</a>' : '') + '<p>' + esc(c.address) + '</p>' + (c.hours_call ? '<p>Call centre: ' + esc(c.hours_call) + '</p>' : '');
-    var fp = $('#footProducts'); if (fp && D.products.length) fp.innerHTML = '<h4>Products</h4>' + D.products.map(function (p) { return '<a href="#shop">' + esc(p.name) + '</a>'; }).join('');
+    var fp = $('#footProducts'); if (fp && D.products.length) fp.innerHTML = '<h4>Products</h4>' + D.products.slice(0, 5).map(function (p) { return '<a href="products.html?p=' + p.id + '">' + esc(p.name) + '</a>'; }).join('') + (D.products.length > 5 ? '<a href="products.html">All products</a>' : '');
     if (D.reviews.length && $('#revs')) $('#revs').innerHTML = D.reviews.map(function (r) {
       return '<div class="rv reveal in"><div class="st" aria-label="' + r.stars + ' stars">' + '★★★★★'.slice(0, r.stars) + '</div><p>' + esc(r.body) + '</p><div class="who">' + esc(r.name) + '<span>' + esc(r.place) + '</span></div></div>'; }).join('');
     if (D.faqs.length && $('#faqList')) $('#faqList').innerHTML = D.faqs.map(function (f) { return '<details><summary>' + esc(f.q) + '</summary><p>' + esc(f.a) + '</p></details>'; }).join('');
@@ -53,12 +53,12 @@
   }
   function drawCards() {
     var box = $('#cards'); if (!box || !D.products.length) return;
-    box.innerHTML = D.products.map(function (p) {
+    box.innerHTML = D.products.slice(0, 3).map(function (p) {   // home shows the first 3; all of them are on products.html
       var badge = p.popular ? '<span class="off" style="background:var(--saffron)">Bestseller</span>' : (p.mrp > p.price ? '<span class="off">Save ' + inr(p.mrp - p.price) + '</span>' : '');
-      var pic = p.image ? '<img src="' + esc(p.image) + '" alt="' + esc(p.name) + '" loading="lazy">' : (DEV[p.icon] || DEV.car);
+      var pic = '<a href="products.html?p=' + p.id + '" aria-label="' + esc(p.name) + ' details" style="display:contents">' + (p.image ? '<img src="' + esc(p.image) + '" alt="' + esc(p.name) + '" loading="lazy">' : (DEV[p.icon] || DEV.car)) + '</a>';
       var feats = p.features.slice(); if (p.free_install && !feats.some(function (f) { return /install/i.test(f); })) feats.push('Free doorstep installation');
       var out = p.stock === 'Out of stock';
-      return '<div class="pc reveal in' + (p.popular ? ' best' : '') + '"><div class="top">' + badge + pic + '</div><div class="body"><h3>' + esc(p.name) + '</h3><div class="for">' + esc(p.descr || p.cat) + '</div>' +
+      return '<div class="pc reveal in' + (p.popular ? ' best' : '') + '"><div class="top">' + badge + pic + '</div><div class="body"><h3><a href="products.html?p=' + p.id + '">' + esc(p.name) + '</a></h3><div class="for">' + esc(p.descr || p.cat) + '</div>' +
         '<div class="pr"><b>' + inr(p.price) + '</b>' + (p.mrp > p.price ? '<s>' + inr(p.mrp) + '</s>' : '') + '</div>' +
         '<div class="ren">Incl. GST, 1 year tracking' + (p.renewal ? ' · then ' + inr(p.renewal) + '/year' : '') + (p.stock === 'Made to order' ? ' · made to order' : '') + '</div>' +
         '<ul>' + feats.map(function (f) { return '<li>' + TICK + esc(f) + '</li>'; }).join('') + '</ul>' +
@@ -87,7 +87,7 @@
   /* ---------- Buy Now: order form ---------- */
   var modal = null, cur = null;
   function closeModal() { if (modal) { modal.remove(); modal = null; document.body.style.overflow = ''; } }
-  function openOrder(id) {
+  function openOrder(id, qty) {
     if (!D) return;
     cur = D.products.filter(function (p) { return p.id === id; })[0]; if (!cur) return;
     var pay = D.pay, fleet = /fleet|commercial|bus|ais/i.test(cur.cat + ' ' + cur.name);
@@ -98,7 +98,7 @@
     modal.innerHTML = '<div class="om-card"><button class="om-x" type="button" aria-label="Close">×</button>' +
       '<div class="om-item"><div class="om-pic">' + (cur.image ? '<img src="' + esc(cur.image) + '" alt="">' : (DEV[cur.icon] || DEV.car)) + '</div><div><h3>' + esc(cur.name) + '</h3><span>' + esc(cur.descr || cur.cat) + '</span><b>' + inr(cur.price) + ' <small>each, incl. GST</small></b></div></div>' +
       '<form class="om-form" novalidate>' +
-      (fleet ? '<label>How many vehicles?<input name="qty" type="number" min="1" max="50" value="1" inputmode="numeric"></label>' : '<input type="hidden" name="qty" value="1">') +
+      (fleet ? '<label>How many vehicles?<input name="qty" type="number" min="1" max="50" value="' + Math.max(1, Math.min(50, qty || 1)) + '" inputmode="numeric"></label>' : '<input type="hidden" name="qty" value="1">') +
       '<div class="om-2"><label>Your name<input name="name" autocomplete="name" maxlength="60" required></label><label>Mobile number<input name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="14" required></label></div>' +
       '<div class="om-2"><label>Vehicle number' + (fleet ? 's' : '') + '<input name="vehicle" placeholder="AP 31 AB 1234" maxlength="40" style="text-transform:uppercase"></label><label>City<select name="city" data-cities></select></label></div>' +
       '<label>Installation address<textarea name="address" rows="2" maxlength="300" autocomplete="street-address" placeholder="House / office, street, area"></textarea></label>' +
@@ -163,5 +163,7 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
 
   fetch(API + '?action=site&_=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.json(); })
-    .then(function (r) { if (r && r.ok) { D = r; fill(); } }).catch(function () {});
+    .then(function (r) { if (r && r.ok) { D = r; fill(); window.BGT.data = r; document.dispatchEvent(new CustomEvent('bgt-data', { detail: r })); } else document.dispatchEvent(new CustomEvent('bgt-data', { detail: null })); })
+    .catch(function () { document.dispatchEvent(new CustomEvent('bgt-data', { detail: null })); });
+  window.BGT = { data: null, openOrder: openOrder, dev: DEV, esc: esc, inr: inr, telHref: telHref };
 })();

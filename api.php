@@ -37,6 +37,8 @@ try {
   $db->exec("CREATE TABLE IF NOT EXISTS faqs (id INTEGER PRIMARY KEY, q TEXT, a TEXT, sort INTEGER DEFAULT 0, visible INTEGER DEFAULT 1)");
   $db->exec("CREATE TABLE IF NOT EXISTS reviews (id INTEGER PRIMARY KEY, name TEXT, place TEXT, body TEXT, stars INTEGER DEFAULT 5,
       sort INTEGER DEFAULT 0, visible INTEGER DEFAULT 1)");
+  foreach (["tags TEXT DEFAULT ''", "specs TEXT DEFAULT ''", "box TEXT DEFAULT ''", "images TEXT DEFAULT ''"] as $col) { try { $db->exec("ALTER TABLE products ADD COLUMN $col"); } catch (Exception $e) {} }
+  $db->exec("UPDATE products SET images=json_array(image) WHERE image!='' AND (images IS NULL OR images='')");   // photo from before the 4-photo gallery
 } catch (Exception $e) { out(false, ['error'=>'The website data is not available right now']); }
 
 function q($s, $p = []) { global $db; $st = $db->prepare($s); $st->execute($p); return $st; }
@@ -93,8 +95,12 @@ if (kv('seeded') === '') {
 }
 
 /* ---------- helpers ---------- */
+function lines($t) { return array_values(array_filter(array_map('trim', explode("\n", (string)$t)), 'strlen')); }
+function imgs($p) { $a = json_decode((string)($p['images'] ?? ''), true); return is_array($a) ? array_values(array_filter($a, 'is_string')) : []; }
 function prodOut($p) {
-  return ['id'=>(int)$p['id'], 'name'=>$p['name'], 'cat'=>$p['cat'], 'icon'=>$p['icon'], 'price'=>(int)$p['price'], 'mrp'=>(int)$p['mrp'],
+  $specs = [];   // "Network: 4G" lines -> [label, value]
+  foreach (lines($p['specs'] ?? '') as $l) { $k = strpos($l, ':'); $specs[] = $k === false ? ['', $l] : [trim(substr($l, 0, $k)), trim(substr($l, $k + 1))]; }
+  return ['tags'=>array_slice(lines($p['tags'] ?? ''), 0, 3), 'specs'=>$specs, 'specs_raw'=>(string)($p['specs'] ?? ''), 'box'=>lines($p['box'] ?? ''), 'images'=>imgs($p),'id'=>(int)$p['id'], 'name'=>$p['name'], 'cat'=>$p['cat'], 'icon'=>$p['icon'], 'price'=>(int)$p['price'], 'mrp'=>(int)$p['mrp'],
     'renewal'=>(int)$p['renewal'], 'features'=>array_values(array_filter(array_map('trim', explode("\n", (string)$p['features'])))),
     'descr'=>(string)$p['descr'], 'image'=>(string)$p['image'], 'stock'=>$p['stock'], 'visible'=>(int)$p['visible'], 'popular'=>(int)$p['popular'],
     'free_install'=>(int)$p['free_install'], 'sort'=>(int)$p['sort']];
@@ -222,10 +228,11 @@ if ($a === 'product_save') {
   $stock = in_array(in_('stock'), ['In stock', 'Made to order', 'Out of stock'], true) ? in_('stock') : 'In stock';
   $icon = in_array(in_('icon'), ['bike', 'car', 'truck', 'bus', 'person'], true) ? in_('icon') : 'car';
   $f = [$name, txt(in_('cat'), 40), $icon, $price, $mrp, max(0, (int)in_('renewal')), txt(in_('features'), 2000), txt(in_('descr'), 300), $stock,
-    in_('visible') === '1' ? 1 : 0, in_('popular') === '1' ? 1 : 0, in_('free_install') === '1' ? 1 : 0];
+    in_('visible') === '1' ? 1 : 0, in_('popular') === '1' ? 1 : 0, in_('free_install') === '1' ? 1 : 0,
+    implode("\n", array_slice(lines(txt(in_('tags'), 200)), 0, 3)), txt(in_('specs'), 3000), txt(in_('box'), 1000)];
   if (in_('popular') === '1') q("UPDATE products SET popular=0");   // one "Most popular" at a time
-  if ($id) q("UPDATE products SET name=?,cat=?,icon=?,price=?,mrp=?,renewal=?,features=?,descr=?,stock=?,visible=?,popular=?,free_install=? WHERE id=?", array_merge($f, [$id]));
-  else { q("INSERT INTO products (name,cat,icon,price,mrp,renewal,features,descr,stock,visible,popular,free_install,sort,created) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+  if ($id) q("UPDATE products SET name=?,cat=?,icon=?,price=?,mrp=?,renewal=?,features=?,descr=?,stock=?,visible=?,popular=?,free_install=?,tags=?,specs=?,box=? WHERE id=?", array_merge($f, [$id]));
+  else { q("INSERT INTO products (name,cat,icon,price,mrp,renewal,features,descr,stock,visible,popular,free_install,tags,specs,box,sort,created) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
     array_merge($f, [(int)(row("SELECT COALESCE(MAX(sort),0)+1 n FROM products")['n']), time()])); $id = (int)$db->lastInsertId(); }
   out(true, ['id'=>$id]);
 }
@@ -237,12 +244,13 @@ if ($a === 'product_move') {   // reorder: up / down by one place
   out(true);
 }
 if ($a === 'product_delete') {
-  $p = row("SELECT image FROM products WHERE id=?", [(int)in_('id')]);
-  if ($p && $p['image'] && is_file(__DIR__.'/'.$p['image'])) @unlink(__DIR__.'/'.$p['image']);
+  $p = row("SELECT image,images FROM products WHERE id=?", [(int)in_('id')]);
+  if ($p) foreach (array_unique(array_merge(imgs($p), [$p['image']])) as $im) if ($im && is_file(__DIR__.'/'.$im)) @unlink(__DIR__.'/'.$im);
   q("DELETE FROM products WHERE id=?", [(int)in_('id')]); out(true);
 }
-if ($a === 'product_image') {   // product photo: JPG / PNG / WebP up to 5 MB, saved under uploads/products with a random name
+if ($a === 'product_image') {   // product photos (up to 4, the first is the main one): JPG / PNG / WebP up to 5 MB, random names under uploads/products
   $p = row("SELECT * FROM products WHERE id=?", [(int)in_('id')]); if (!$p) out(false, ['error'=>'Save the item first']);
+  $list = imgs($p); if (count($list) >= 4) out(false, ['error'=>'Up to 4 photos. Remove one first.']);
   $f = $_FILES['image'] ?? null; if (!$f || $f['error'] !== UPLOAD_ERR_OK) out(false, ['error'=>'Choose a photo']);
   if ($f['size'] > 5*1024*1024) out(false, ['error'=>'The photo must be under 5 MB']);
   $info = @getimagesize($f['tmp_name']); $ext = ['image/jpeg'=>'jpg', 'image/png'=>'png', 'image/webp'=>'webp'][$info['mime'] ?? ''] ?? '';
@@ -252,13 +260,15 @@ if ($a === 'product_image') {   // product photo: JPG / PNG / WebP up to 5 MB, s
   if (!is_file($ht)) @file_put_contents($ht, "<FilesMatch \"\\.(php|phtml|php[0-9]|phar|cgi|pl|py|sh)$\">\n  Require all denied\n</FilesMatch>\n");
   $name = 'p'.$p['id'].'-'.bin2hex(random_bytes(5)).'.'.$ext;
   if (!move_uploaded_file($f['tmp_name'], UPLOADS.'/'.$name)) out(false, ['error'=>'Could not save the photo']);
-  if ($p['image'] && is_file(__DIR__.'/'.$p['image'])) @unlink(__DIR__.'/'.$p['image']);
-  q("UPDATE products SET image=? WHERE id=?", ['uploads/products/'.$name, $p['id']]); out(true, ['image'=>'uploads/products/'.$name]);
+  $list[] = 'uploads/products/'.$name;
+  q("UPDATE products SET images=?, image=? WHERE id=?", [json_encode($list), $list[0], $p['id']]); out(true, ['images'=>$list]);
 }
-if ($a === 'product_image_remove') {
-  $p = row("SELECT image FROM products WHERE id=?", [(int)in_('id')]);
-  if ($p && $p['image'] && is_file(__DIR__.'/'.$p['image'])) @unlink(__DIR__.'/'.$p['image']);
-  q("UPDATE products SET image='' WHERE id=?", [(int)in_('id')]); out(true);
+if ($a === 'product_image_remove' || $a === 'product_image_main') {   // remove a photo, or make it the main (first) photo
+  $p = row("SELECT * FROM products WHERE id=?", [(int)in_('id')]); if (!$p) out(false, ['error'=>'Item not found']);
+  $list = imgs($p); $i = (int)in_('index'); if (!isset($list[$i])) out(false, ['error'=>'Photo not found']);
+  if ($a === 'product_image_remove') { if (is_file(__DIR__.'/'.$list[$i])) @unlink(__DIR__.'/'.$list[$i]); array_splice($list, $i, 1); }
+  else { $m = $list[$i]; array_splice($list, $i, 1); array_unshift($list, $m); }
+  q("UPDATE products SET images=?, image=? WHERE id=?", [json_encode($list), $list[0] ?? '', $p['id']]); out(true, ['images'=>$list]);
 }
 if ($a === 'orders') {
   $show = in_('all') === '1' ? "" : "WHERE pay_method='install' OR pay_status='paid'";   // unpaid online attempts only with "show unpaid"
